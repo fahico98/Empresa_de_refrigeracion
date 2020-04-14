@@ -4,12 +4,10 @@ include '../Models/Cliente.php';
 
 class ClientesController extends Cliente{
    
-   // Fahico...!
    public function seleccionar($parametro, $valor, $pagina){
       return $this->seleccionarClientes($parametro, $valor, $pagina);
    }
 
-   // Fahico...!
    public function seleccionarPorId($id){
       return $this->seleccionarPorParametro("id", $id);
    }
@@ -26,7 +24,6 @@ class ClientesController extends Cliente{
       return $this->seleccionarPorParametro("placa", $placa);
    }
 
-   // Fahico...!
    public function insertar($documento, $nombre, $apellido, $edad, $telefono, $direccion, $email, $placa){
       $this->documento = $documento;
       $this->nombre = $nombre;
@@ -48,41 +45,13 @@ class ClientesController extends Cliente{
       $this->direccion = $direccion;
       $this->email = $email;
       $this->placa = $placa;
-      $this->editar($id);
+      $this->actualizarCliente($id);
    }
 
-   public function VerifyUpdate($id, $documento, $nombre, $edad, $telefono, $direccion, $correo, $placa){
-      $this->Id = $id;
-      $this->Documento = $documento;
-      $this->Nombre = $nombre;
-      $this->Edad = $edad;
-      $this->Telefono = $telefono;
-      $this->Direccion = $direccion;
-      $this->Correo = $correo;
-      $this->Placa = $placa;
-
-      $this->ChangeClient();
-      $this->redirect();
+   public function eliminar($id){
+      $this->eliminarCliente($id);
    }
 
-
-   public function Delete($id){
-      $this->Id = $id;
-      $this->DeleteClient();
-      $this->redirect();  
-   }
-
-   public function Update($id){
-      $this->Id = $id;
-      $objetoretornado = $this->SearchClient();
-      require '../Views/Clientes/Update.php';
-   }
-
-   public function redirect(){
-      header("location: ClientesController.php?accion=Index");
-   }
-
-   // Fahico...!
    public function plantillaClientes($clientes){
       $salida = "";
       if(count($clientes) !== 0){
@@ -104,12 +73,14 @@ class ClientesController extends Cliente{
                </tr>";
          }
       }else{
-         $salida = "<tr class='text-center'><h3>No hay clientes para mostrar...</h3><tr>";
+         $salida =
+            "<tr><td colspan='9' class='text-center'>
+               <h4>No hay clientes para mostrar...</h4>
+            </td></tr>";
       }
       return $salida;
    }
 
-   // Fahico...!
    public function plantillaPaginacion($parametro, $valor, $pagina){
       $salida = "";
       $totalPaginas = $this->totalPaginas($parametro, $valor);
@@ -124,7 +95,6 @@ class ClientesController extends Cliente{
    }
 }
 
-// Fahico...!
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "seleccionar_id"){
       $cliCont = new ClientesController();
@@ -133,8 +103,6 @@ if(isset($_GET["accion"])){
    }
 }
 
-
-// Fahico...!
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "seleccionar_documento"){
       $cliCont = new ClientesController();
@@ -143,7 +111,6 @@ if(isset($_GET["accion"])){
    }
 }
 
-// Fahico...!
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "seleccionar_email"){
       $cliCont = new ClientesController();
@@ -152,7 +119,6 @@ if(isset($_GET["accion"])){
    }
 }
 
-// Fahico...!
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "seleccionar_placa"){
       $cliCont = new ClientesController();
@@ -161,7 +127,6 @@ if(isset($_GET["accion"])){
    }
 }
 
-// Fahico...!
 if(isset($_POST['accion'])){
    if($_POST['accion'] == "insertar"){
       $cliCont = new ClientesController();
@@ -178,7 +143,6 @@ if(isset($_POST['accion'])){
    }
 }
 
-// Fahico...!
 if(isset($_POST["accion"])){
    if($_POST["accion"] == "editar"){
       $cliCont = new ClientesController();
@@ -196,7 +160,6 @@ if(isset($_POST["accion"])){
    }
 }
 
-// Fahico...!
 if(isset($_GET['accion'])){
    if($_GET['accion'] == "seleccionar"){
       $cliCont = new ClientesController();
@@ -210,7 +173,6 @@ if(isset($_GET['accion'])){
    }
 }
 
-// Fahico...!
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "paginacion"){
       $cliCont = new ClientesController();
@@ -222,28 +184,9 @@ if(isset($_GET["accion"])){
    }
 }
 
-
-
-if (isset($_GET['accion']) && $_GET['accion'] == "delete") {
-   $ic = new ClientesController(); 
-   $ic->Delete($_GET['id']);
+if(isset($_GET["accion"])){
+   if($_GET["accion"] == "eliminar"){
+      $cliCont = new ClientesController();
+      $cliCont->eliminar($_GET["id"]);
+   }
 }
-
-if (isset($_GET['accion']) && $_GET['accion'] == "update") {
-   $ic = new ClientesController(); 
-   $ic->Update($_GET['id']);
-}
-
-if (isset($_POST['accion']) && $_POST['accion'] == "update") {
-   $ic = new ClientesController(); 
-   $id = $_POST['Id'];
-   $documento = $_POST['Documento'];
-   $nombre = $_POST['Nombre'];
-   $edad = $_POST['Edad'];
-   $telefono = $_POST['Telefono'];
-   $direccion = $_POST['Direccion'];
-   $placa = $_POST['Placa'];
-   
-   $ic->VerifyUpdate($id, $documento, $nombre, $edad, $telefono, $direccion, $correo, $placa);
-}
-

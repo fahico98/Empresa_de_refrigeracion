@@ -96,22 +96,22 @@ class Iniciador{
       $this->conexion->pdo->query($query);
 
       $query = "ALTER TABLE login
-         ADD CONSTRAINT c_1 FOREIGN KEY (empleado_id) REFERENCES empleados (id) ON UPDATE CASCADE;";
+         ADD CONSTRAINT c_1 FOREIGN KEY (empleado_id) REFERENCES empleados (id) ON DELETE CASCADE;";
       $this->conexion->pdo->query($query);
 
       $query = "ALTER TABLE registro_vehiculos
-         ADD CONSTRAINT c_2 FOREIGN KEY (cliente_id) REFERENCES clientes (id) ON UPDATE CASCADE;";
+         ADD CONSTRAINT c_2 FOREIGN KEY (cliente_id) REFERENCES clientes (id) ON DELETE CASCADE;";
       $this->conexion->pdo->query($query);
 
       $query = "ALTER TABLE compras
-         ADD CONSTRAINT c_3 FOREIGN KEY (producto_id) REFERENCES productos (id) ON UPDATE CASCADE,
-         ADD CONSTRAINT c_4 FOREIGN KEY (servicio_id) REFERENCES servicios (id) ON UPDATE CASCADE,
-         ADD CONSTRAINT c_5 FOREIGN KEY (empleado_id) REFERENCES empleados (id) ON UPDATE CASCADE,
-         ADD CONSTRAINT c_6 FOREIGN KEY (factura_id) REFERENCES facturas (id) ON UPDATE CASCADE;";
+         ADD CONSTRAINT c_3 FOREIGN KEY (producto_id) REFERENCES productos (id) ON DELETE CASCADE,
+         ADD CONSTRAINT c_4 FOREIGN KEY (servicio_id) REFERENCES servicios (id) ON DELETE CASCADE,
+         ADD CONSTRAINT c_5 FOREIGN KEY (empleado_id) REFERENCES empleados (id) ON DELETE CASCADE,
+         ADD CONSTRAINT c_6 FOREIGN KEY (factura_id) REFERENCES facturas (id) ON DELETE CASCADE;";
       $this->conexion->pdo->query($query);
 
       $query = "ALTER TABLE facturas
-         ADD CONSTRAINT c_7 FOREIGN KEY (cliente_id) REFERENCES clientes (id) ON UPDATE CASCADE;";
+         ADD CONSTRAINT c_7 FOREIGN KEY (cliente_id) REFERENCES clientes (id) ON DELETE CASCADE;";
       $this->conexion->pdo->query($query);
    }
 

@@ -4,6 +4,7 @@
 $cerrarSesionURL = "http://localhost/WampCode/Yurani_Duque/Controllers/LoginController.php?accion=logout";
 $inicioURL = "http://localhost/WampCode/Yurani_Duque";
 $clientesURL = "http://localhost/WampCode/Yurani_Duque/Views/Clientes";
+$empleadosURL = "http://localhost/WampCode/Yurani_Duque/Views/Empleados";
 
 ?>
 
@@ -37,7 +38,7 @@ $clientesURL = "http://localhost/WampCode/Yurani_Duque/Views/Clientes";
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                      <a class="dropdown-item" href="#">Compras</a>
                      <a class="dropdown-item" href="<?php echo($clientesURL); ?>">Clientes</a>
-                     <a class="dropdown-item" href="#">Empleados</a>
+                     <a class="dropdown-item" href="<?php echo($empleadosURL); ?>">Empleados</a>
                      <a class="dropdown-item" href="#">Vehiculos registrados</a>
                      <div class="dropdown-divider"></div>
                      <a class="dropdown-item" href="#">Productos</a>

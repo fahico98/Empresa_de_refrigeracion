@@ -1,16 +1,18 @@
 
+
 var paginaActual = 1;
-var clienteEnEdicion = null;
+var empleadoEnEdicion = null;
 
 var arregloEntradas = {
    "Nombre" : $("#entradaNombre"),
    "Apellido" : $("#entradaApellido"),
    "Documento" : $("#entradaDocumento"),
-   "Edad" : $("#entradaEdad"),
    "Telefono" : $("#entradaTelefono"),
-   "Direccion" : $("#entradaDireccion"),
-   "Email" : $("#entradaEmail"),
-   "Placa" : $("#entradaPlaca")
+   "Cargo" : $("#entradaCargo"),
+   "Sueldo" : $("#entradaSueldo"),
+   "Usuario" : $("#entradaUsuario"),
+   "Contrasena" : $("#entradaContrasena"),
+   "ReContrasena" : $("#entradaReContrasena")
 };
 
 $(document).ready(function(){
@@ -19,36 +21,36 @@ $(document).ready(function(){
    $("td").addClass("align-middle mx-0 px-0");
    $("th").addClass("align-middle mx-0 px-0");
 
-   cargarClientes("nombre", "", 1);
+   cargarEmpleados("nombre", "", 1);
 
    $("#formulario").on("submit", function(event){
       event.preventDefault();
       if(validarFormulario()){
          var datosFormulario = new FormData(this);
-         if($("#tituloVentanaModal").text() == "Editar cliente"){
+         if($("#tituloVentanaModal").text() == "Editar empleado"){
             datosFormulario.set("accion", "editar");
             $.ajax({
                type: "POST",
-               url: "http://localhost/WampCode/Yurani_Duque/Controllers/ClientesController.php",
+               url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
                data: datosFormulario,
                processData: false,
                contentType: false,
                success: function(){
-                  clienteEnEdicion = null;
+                  empleadoEnEdicion = null;
                   $("#botonCancelar").trigger("click");
-                  recargarClientes();
+                  recargarEmpleados();
                }, async: false
             });
-         }else if($("#tituloVentanaModal").text() == "Registrar nuevo cliente"){
+         }else if($("#tituloVentanaModal").text() == "Registrar nuevo empleado"){
             $.ajax({
                type: "POST",
-               url: "http://localhost/WampCode/Yurani_Duque/Controllers/ClientesController.php",
+               url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
                data: datosFormulario,
                processData: false,
                contentType: false,
                success: function(){
                   $("#botonCancelar").trigger("click");
-                  recargarClientes();
+                  recargarEmpleados();
                }, async: false
             });
          }
@@ -62,7 +64,7 @@ $(document).ready(function(){
 
    $("#botonCancelar").on("click", function(evento){
       evento.preventDefault();
-      clienteEnEdicion = null;
+      empleadoEnEdicion = null;
    });
 
    $(".dropdown-item").on("click", function(evento){
@@ -70,7 +72,7 @@ $(document).ready(function(){
       if($(this).text().localeCompare($("#dropdownBusqueda").text()) != 0){
          $("#dropdownBusqueda").text($(this).text());
          $("#entradaBusqueda").val("");
-         cargarClientes($(this).text(), "", 1);
+         cargarEmpleados($(this).text(), "", 1);
       }
    });
 
@@ -78,20 +80,20 @@ $(document).ready(function(){
       evento.preventDefault();
       let parametro = $("#dropdownBusqueda").text().toLowerCase();
       let valor = $(this).val();
-      cargarClientes(parametro, valor, 1);
+      cargarEmpleados(parametro, valor, 1);
    });
 
    $("#botonVentanaModal").on("click", function(evento){
       evento.preventDefault();
       reiniciarFormulario();
-      $("#tituloVentanaModal").text("Registrar nuevo cliente");
+      $("#tituloVentanaModal").text("Registrar nuevo empleado");
    });
 
    $("#botonEliminarAux").on("click", function(evento){
       evento.preventDefault();
-      eliminarCliente($("#idEliminar").val());
+      eliminarEmpleado($("#idEliminar").val());
       $("#botonCancelarAux").trigger("click");
-      cargarClientes($("#dropdownBusqueda").text().toLowerCase(), $("#entradaBusqueda").val(), 1);
+      cargarEmpleados($("#dropdownBusqueda").text().toLowerCase(), $("#entradaBusqueda").val(), 1);
    });
 
    $(document).on("click", ".botonPagina", function(evento){
@@ -100,46 +102,45 @@ $(document).ready(function(){
       let parametro = $("#dropdownBusqueda").text().toLowerCase();
       let valor = $("#entradaBusqueda").val();
       paginaActual = pagina;
-      cargarClientes(parametro, valor, pagina);
+      cargarEmpleados(parametro, valor, pagina);
    });
 
    $(document).on("click", ".linkEditar", function(evento){
       evento.preventDefault();
-      let cliente = cargarClientePorParametro("id", $(this).attr("id"));
-      clienteEnEdicion = cliente;
+      let empleado = cargarEmpleadoPorParametro("id", $(this).attr("id"));
+      empleadoEnEdicion = empleado;
       $("#botonVentanaModal").trigger("click");
-      $("#tituloVentanaModal").text("Editar cliente");
+      $("#tituloVentanaModal").text("Editar empleado");
       $("#entradaId").val($(this).attr("id"));
-      $("#entradaNombre").val(cliente.nombre);
-      $("#entradaApellido").val(cliente.apellido);
-      $("#entradaDocumento").val(cliente.documento);
-      $("#entradaEdad").val(cliente.edad);
-      $("#entradaTelefono").val(cliente.telefono);
-      $("#entradaDireccion").val(cliente.direccion);
-      $("#entradaEmail").val(cliente.email);
-      $("#entradaPlaca").val(cliente.placa);
+      $("#entradaNombre").val(empleado.nombre);
+      $("#entradaApellido").val(empleado.apellido);
+      $("#entradaDocumento").val(empleado.documento);
+      $("#entradaTelefono").val(empleado.telefono);
+      $("#entradaCargo").val(empleado.cargo);
+      $("#entradaSueldo").val(empleado.sueldo);
+      $("#entradaUsuario").val(empleado.usuario);
    });
 
    $(document).on("click", ".linkEliminar", function(event){
       event.preventDefault();
-      let cliente = cargarClientePorParametro("id", $(this).attr("id"));
-      $("#idEliminar").val(cliente.id);
+      let empleado = cargarEmpleadoPorParametro("id", $(this).attr("id"));
+      $("#idEliminar").val(empleado.id);
       $("#contenidoVentanaModalAux")
-         .html("¿Realmente quiere eliminar al cliente <strong>" + cliente.nombre + " " + cliente.apellido + "</strong>?");
+         .html("¿Realmente quiere eliminar al empleado <strong>" + empleado.nombre + " " + empleado.apellido + "</strong>?");
       $("#botonVentanaModalAux").trigger("click");
    });
 
 });
 
-function recargarClientes(){
-   cargarClientes(
+function recargarEmpleados(){
+   cargarEmpleados(
       $("#dropdownBusqueda").text().toLowerCase(),
       $("#entradaBusqueda").val(),
       paginaActual
    );
 }
 
-function cargarClientes(parametro, valor, pagina){
+function cargarEmpleados(parametro, valor, pagina){
 
    let data = {
       accion: "seleccionar",
@@ -150,7 +151,7 @@ function cargarClientes(parametro, valor, pagina){
 
    $.ajax({
       type: "GET",
-      url: "http://localhost/WampCode/Yurani_Duque/Controllers/ClientesController.php",
+      url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
       data: data,
       dataType: "html",
       success: function(response){
@@ -162,7 +163,7 @@ function cargarClientes(parametro, valor, pagina){
 
    $.ajax({
       type: "GET",
-      url: "http://localhost/WampCode/Yurani_Duque/Controllers/ClientesController.php",
+      url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
       data: data,
       dataType: "html",
       success: function(response){
@@ -174,11 +175,11 @@ function cargarClientes(parametro, valor, pagina){
    $("th").addClass("align-middle mx-0 px-0");
 }
 
-function cargarClientePorParametro(parametro, valor){
+function cargarEmpleadoPorParametro(parametro, valor){
    let salida = null;
    $.ajax({
       type: "GET",
-      url: "http://localhost/WampCode/Yurani_Duque/Controllers/ClientesController.php",
+      url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
       data: {valor: valor, accion: "seleccionar_" + parametro},
       dataType: "json",
       async: false,
@@ -189,10 +190,10 @@ function cargarClientePorParametro(parametro, valor){
    return salida;
 }
 
-function eliminarCliente(id){
+function eliminarEmpleado(id){
    $.ajax({
       type: "GET",
-      url: "http://localhost/WampCode/Yurani_Duque/Controllers/ClientesController.php",
+      url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
       data: {id: id, accion: "eliminar"},
       async: false
    });
@@ -208,94 +209,89 @@ function reiniciarFormulario(){
 function validarFormulario(){
    var patronNumerico = /[0-9]{1,11}$/;
    var patronAlfabetico = /[A-Za-z\s]+$/;
-   var patronAlfanumerico = /[0-9A-Za-z\s]+$/;
-   var patronEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+   // var patronAlfanumerico = /[0-9A-Za-z\s]+$/;
+   var patronUsuario = /[0-9A-Za-z]+$/;
+   var patronContrasena = /[^\s]+$/
    var salida = true;
    for(var [llave, entrada] of Object.entries(arregloEntradas)){
       let texto = entrada.val();
-      if(texto.localeCompare("") == 0){
+      if(texto.localeCompare("") == 0 && llave.localeCompare("ReContrasena") != 0 && llave.localeCompare("Contrasena") != 0){
          $("#subEntrada" + llave).text("[*] Este campo es obligatorio.");
          salida = false;
       }else{
          if(llave.localeCompare("Nombre") == 0){
             if(!patronAlfabetico.test(texto)){
-               $("#subEntradaNombre").text("[*] El nombre del cliente solo debe contener caracteres alfabéticos.");
+               $("#subEntradaNombre").text("[*] El nombre del empleado solo debe contener caracteres alfabéticos.");
                salida = false;
             }else{$("#subEntradaNombre").text("");}
          }else if(llave.localeCompare("Apellido") == 0){
             if(!patronAlfabetico.test(texto)){
-               $("#subEntradaApellido").text("[*] El apellido del cliente solo debe contener caracteres alfabéticos.");
+               $("#subEntradaApellido").text("[*] El apellido del empleado solo debe contener caracteres alfabéticos.");
                salida = false;
             }else{$("#subEntradaApellido").text("");}
          }else if(llave.localeCompare("Documento") == 0){
-            if(clienteEnEdicion != null){
-               if(clienteEnEdicion.documento.localeCompare(texto) != 0 && cargarClientePorParametro("documento", texto) != null){
+            if(empleadoEnEdicion != null){
+               if(empleadoEnEdicion.documento.localeCompare(texto) != 0 && cargarEmpleadoPorParametro("documento", texto) != null){
                   $("#subEntradaDocumento").text("[*] El documento que ingresó ya existe en la base de datos.");
                   salida = false;
                }else{$("#subEntradaDocumento").text("");}
             }else{
-               if(cargarClientePorParametro("documento", texto) != null){
+               if(cargarEmpleadoPorParametro("documento", texto) != null){
                   $("#subEntradaDocumento").text("[*] El documento que ingresó ya existe en la base de datos.");
                   salida = false;
                }else{$("#subEntradaDocumento").text("");}
             }
             if(!patronNumerico.test(texto)){
-               $("#subEntradaDocumento").text("[*] El documento del cliente solo debe contener caracteres numéricos.");
+               $("#subEntradaDocumento").text("[*] El documento del empleado solo debe contener caracteres numéricos.");
                salida = false;
-            }
-         }else if(llave.localeCompare("Edad") == 0){
-            let numVal = parseInt(texto, 10);
-            if(!patronNumerico.test(texto)){
-               $("#subEntradaEdad").text("[*] La edad del cliente solo debe contener caracteres numéricos.");
-               salida = false;
-            }else{
-               if(numVal < 18 || numVal > 99){
-                  $("#subEntradaEdad").text("[*] La edad del cliente no esta en el rango permitido (18 a 99 años).");
-                  salida = false;
-               }else{$("#subEntradaEdad").text("");}
             }
          }else if(llave.localeCompare("Telefono") == 0){
             if(!patronNumerico.test(texto)){
-               $("#subEntradaTelefono").text("[*] El telefono del cliente solo debe contener caracteres numéricos.");
+               $("#subEntradaTelefono").text("[*] El telefono del empleado solo debe contener caracteres numéricos.");
                salida = false;
             }else{$("#subEntradaTelefono").text("");}
-         }else if(llave.localeCompare("Direccion") == 0){
-            if(!patronAlfanumerico.test(texto)){
-               $("#subEntradaDireccion").text("[*] La dirección del cliente no debe contener caracteres especiales.");
+         }else if(llave.localeCompare("Cargo") == 0){
+            if(!patronAlfabetico.test(texto)){
+               $("#subEntradaCargo").text("[*] El cargo del empleado solo debe contener caracteres alfabéticos.");
                salida = false;
-            }else{$("#subEntradaDireccion").text("");}
-         }else if(llave.localeCompare("Email") == 0){
-            if(clienteEnEdicion != null){
-               if(clienteEnEdicion.email.localeCompare(texto) != 0 && cargarClientePorParametro("email", texto) != null){
-                  $("#subEntradaEmail").text("[*] El email que ingresó ya esta siendo usado por otro cliente.");
+            }else{$("#subEntradaCargo").text("");}
+         }else if(llave.localeCompare("Sueldo") == 0){
+            if(!patronNumerico.test(texto)){
+               $("#subEntradaSueldo").text("[*] El sueldo del empleado solo debe contener caracteres numéricos.");
+               salida = false;
+            }else{$("#subEntradaSueldo").text("");}
+         }else if(llave.localeCompare("Usuario") == 0){
+            if(empleadoEnEdicion != null){
+               if(empleadoEnEdicion.usuario.localeCompare(texto) != 0 && cargarEmpleadoPorParametro("usuario", texto) != null){
+                  $("#subEntradaUsuario").text("[*] El nombre de usuario que ingresó esta siendo usado por otro usuario.");
                   salida = false;
-               }else{$("#subEntradaEmail").text("");}
+               }else{$("#subEntradaUsuario").text("");}
             }else{
-               if(cargarClientePorParametro("email", texto) != null){
-                  $("#subEntradaEmail").text("[*] El email que ingresó ya esta siendo usado por otro cliente.");
+               if(cargarEmpleadoPorParametro("usuario", texto) != null){
+                  $("#subEntradaUsuario").text("[*] El nombre de usuario que ingresó esta siendo usado por otro usuario.");
                   salida = false;
-               }else{$("#subEntradaEmail").text("");}
+               }else{$("#subEntradaUsuario").text("");}
             }
-            if(!patronEmail.test(texto)){
-               $("#subEntradaEmail").text("[*] No corresponde con una dirección de correo electrónico.");
+            if(!patronUsuario.test(texto)){
+               $("#subEntradaUsuario").text("[*] El nombre de usuario del empleado no debe contener caracteres especiales.");
                salida = false;
             }
-         }else if(llave.localeCompare("Placa") == 0){
-            if(clienteEnEdicion != null){
-               if(clienteEnEdicion.placa.localeCompare(texto) != 0 && cargarClientePorParametro("placa", texto) != null){
-                  $("#subEntradaPlaca").text("[*] La placa que ingresó le pertenece a otro cliente.");
-                  salida = false;
-               }else{$("#subEntradaPlaca").text("");}
-            }else{
-               if(cargarClientePorParametro("placa", texto) != null){
-                  $("#subEntradaPlaca").text("[*] La placa que ingresó le pertenece a otro cliente.");
-                  salida = false;
-               }else{$("#subEntradaPlaca").text("");}
-            }
-            if(!patronAlfanumerico.test(texto)){
-               $("#subEntradaPlaca").text("[*] La placa no debe contener caracteres especiales.");
+         }else if(llave.localeCompare("Contrasena") == 0 && texto.localeCompare("") != 0){
+            if(!patronContrasena.test(texto)){
+               $("#subEntradaContrasena").text("[*] La contraseña ingresada no es valida.");
                salida = false;
-            }
+            }else if(texto.localeCompare($("#entradaReContrasena").val()) != 0){
+               $("#subEntradaContrasena").text("[*] Las contraseñas no coinciden.");
+               salida = false;
+            }else{$("#subEntradaContrasena").text("");}
+         }else if(llave.localeCompare("ReContrasena") == 0 && texto.localeCompare("") != 0){
+            if(!patronContrasena.test(texto)){
+               $("#subEntradaReContrasena").text("[*] La contraseña ingresada no es valida.");
+               salida = false;
+            }else if(texto.localeCompare($("#entradaContrasena").val()) != 0){
+               $("#subEntradaReContrasena").text("[*] Las contraseñas no coinciden.");
+               salida = false;
+            }else{$("#subEntradaReContrasena").text("");}
          }
       }
    }

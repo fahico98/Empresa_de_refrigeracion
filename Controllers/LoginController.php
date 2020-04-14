@@ -19,10 +19,9 @@ class LoginController extends Login{
       Include '../Views/Login/Index.php';
    }
 
-   // Fahico...!
    public function cerrarSesion(){
       session_destroy();
-      header("Location: ../Index.php");
+      header("Location: http://localhost/WampCode/Yurani_Duque");
    }
 
    public function VerifyInsert($username,$password){
@@ -33,16 +32,12 @@ class LoginController extends Login{
 
    // Fahico...!
    public function verificarLogin($usuario, $contrasena, $ajax = false){
-
       $this->usuario = $usuario;
       $this->contrasena = $contrasena;
       $datosLogin = $this->buscarLogin();
-
       if($datosLogin != null){
          if(password_verify($contrasena, $datosLogin->contrasena)){
-            if($ajax){
-               echo("credenciales_validas");
-            }else{
+            if($ajax){ echo("credenciales_validas"); }else{
                session_start();
                $_SESSION["nombre"] = $this->nombreEmpleado($datosLogin->empleado_id);
                $_SESSION["usuario"] = $datosLogin->usuario;
@@ -62,7 +57,6 @@ class LoginController extends Login{
    }
 }
 
-// Fahico...!
 if(isset($_POST["accion"])){
    if($_POST["accion"] == "login"){
       $logCont = new LoginController();
@@ -70,7 +64,6 @@ if(isset($_POST["accion"])){
    }
 }
 
-// Fahico...!
 if(isset($_GET['accion'])){
    if($_GET['accion'] == "logout"){
       $logCont = new LoginController(); 
