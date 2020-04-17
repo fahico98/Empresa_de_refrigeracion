@@ -44,10 +44,10 @@
                      aria-haspopup="true" aria-expanded="false" id="dropdownBusqueda"
                      style="width: 160px;">Documento</button>
                   <div class="dropdown-menu">
-                     <option value="documento" class="dropdown-item">Documento</option>
-                     <option value="nombre" class="dropdown-item">Nombre</option>
-                     <option value="apellido" class="dropdown-item">Apellido</option>
-                     <option value="placa" class="dropdown-item">Placa</option>
+                     <option value="documento" class="dropdown-item dropdownLink">Documento</option>
+                     <option value="nombre" class="dropdown-item dropdownLink">Nombre</option>
+                     <option value="apellido" class="dropdown-item dropdownLink">Apellido</option>
+                     <option value="placa" class="dropdown-item dropdownLink">Placa</option>
                   </div>
                </div>
                <div class="col ml-2 px-0 w-100">

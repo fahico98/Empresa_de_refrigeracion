@@ -2,62 +2,80 @@
 
 include '../Config/Conexion.php';
 
-class Servicios{
+class Servicio{
 
-   protected $Id;
-   protected $Codigo;
-   protected $Mantenimiento;
-   protected $Reparacion;
-   protected $Venta_repuestos;
+   protected $id;
+   protected $nombre;
+   protected $tipo;
+   protected $costo;
+   protected $observaciones;
+   protected $porPagina = 2;
 
-   protected function SaveInfoServicio(){
-
-      $conexion = new conexion();
-
-      $sql = "INSERT INTO Servicio (Codigo,Mantenimiento,Reparacion,Venta_repuestos) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-      
-      $insert = $conexion->stm->prepare($sql);
-      $insert->bindParam(1,$this->Codigo);
-      $insert->bindParam(2,$this->Mantenimiento);
-      $insert->bindParam(3,$this->Reparacion);
-      $insert->bindParam(4,$this->Venta_repuestos);
-   
-      $insert->execute();
+   protected function guardarServicio(){
+      $conexion = new Conexion();
+      $query = "INSERT INTO servicios (nombre, tipo, costo, observaciones) 
+         VALUES (:nombre, :tipo, :costo, :observaciones)"; 
+      $statement = $conexion->pdo->prepare($query);
+      $statement->bindValue(":nombre", $this->nombre);
+      $statement->bindValue(":tipo", $this->tipo);
+      $statement->bindValue(":costo", $this->costo);
+      $statement->bindValue(":observaciones", $this->observaciones);
+      $statement->execute();
+      $conexion->cerrarConexion();
    }
 
-   protected function SearchAllServicios(){
-      $conexion = new conexion();
-      $sql = "SELECT * FROM servicio";
-      $search = $conexion->stm->prepare($sql);
-      $search->execute();
-      $objetoretornado = $search->fetchAll(PDO::FETCH_OBJ);
-      return $objetoretornado;
+   protected function actualizarServicio($id){
+      $conexion = new Conexion();
+      $query =
+         "UPDATE servicios SET 
+            nombre = :nombre,
+            tipo = :tipo,
+            costo = :costo,
+            observaciones = :observaciones
+         WHERE (
+            id = $id
+         )";
+      $statement = $conexion->pdo->prepare($query);
+      $statement->bindValue(":nombre", $this->nombre);
+      $statement->bindValue(":tipo", $this->tipo);
+      $statement->bindValue(":costo", $this->costo);
+      $statement->bindValue(":observaciones", $this->observaciones);
+      $statement->execute();
+      $conexion->cerrarConexion();
    }
 
-   protected function DeleteServicio(){
-      $conexion = new conexion();
-      $sql = "DELETE FROM servicio WHERE id ='$this->Id'";
-      $delete = $conexion->stm->prepare($sql);
-      $delete->execute();
+   protected function seleccionarServicios($parametro = "nombre", $valor = "", $pagina = 1){
+      $limite = "LIMIT " . ($pagina - 1) * $this->porPagina . ", " . $this->porPagina;
+      $query = strcmp($valor, "") == 0 ? "SELECT * FROM servicios ORDER BY id DESC $limite" : 
+         "SELECT * FROM servicios WHERE $parametro LIKE '%" . htmlentities(addslashes($valor)) .
+         "%' ORDER BY id DESC $limite";
+      $conexion = new Conexion();
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return $statement->fetchAll(PDO::FETCH_OBJ);
    }
 
-   /*
-   protected function SearchAllServicios(){
-      $conexion = new conexion();
-      $sql = "SELECT * FROM servicio WHERE id ='$this->Id'";
-      $update = $conexion->stm->prepare($sql);
-      $update->execute();
-      $objetoretornado = $update->fetchAll(PDO::FETCH_OBJ);
-      return  $objetoretornado;
+   protected function totalPaginas($parametro, $valor){
+      $query = strcmp($valor, "") == 0 ? "SELECT * FROM servicios ORDER BY id DESC" :
+         "SELECT * FROM servicios WHERE $parametro LIKE '%" . htmlentities(addslashes($valor)) . "%' ORDER BY id DESC";
+      $conexion = new Conexion();
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return ceil($statement->rowCount() / $this->porPagina);
    }
-   */
 
-   protected function Changeservi(){
+   protected function seleccionarPorParametro($parametro, $valor){
+      $conexion = new Conexion();
+      $query = "SELECT * FROM servicios WHERE $parametro = '$valor'";
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return $statement->rowCount() == 0 ? null : json_encode($statement->fetchAll(PDO::FETCH_OBJ)[0]);
+   }
+
+   protected function eliminarServicio($id){
       $conexion = new conexion();
-      $sql = "UPDATE servicio SET codigo='$this->Codigo', mantenimiento='$this->Mantenimiento', 
-         reparacion='$this->Reparacion', venta_repuestos='$this->Venta_repuestos',  WHERE id ='$this->Id'";
-      $chnge = $conexion->stm->prepare($sql);
-      $change->execute();
+      $query = "DELETE FROM servicios WHERE id = '$id'";
+      $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
    }
 }

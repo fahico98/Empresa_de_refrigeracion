@@ -5,6 +5,7 @@ $cerrarSesionURL = "http://localhost/WampCode/Yurani_Duque/Controllers/LoginCont
 $inicioURL = "http://localhost/WampCode/Yurani_Duque";
 $clientesURL = "http://localhost/WampCode/Yurani_Duque/Views/Clientes";
 $empleadosURL = "http://localhost/WampCode/Yurani_Duque/Views/Empleados";
+$serviciosURL = "http://localhost/WampCode/Yurani_Duque/Views/Servicios";
 
 ?>
 
@@ -42,7 +43,7 @@ $empleadosURL = "http://localhost/WampCode/Yurani_Duque/Views/Empleados";
                      <a class="dropdown-item" href="#">Vehiculos registrados</a>
                      <div class="dropdown-divider"></div>
                      <a class="dropdown-item" href="#">Productos</a>
-                     <a class="dropdown-item" href="#">Servicios</a>
+                     <a class="dropdown-item" href="<?php echo($serviciosURL); ?>">Servicios</a>
                      <div class="dropdown-divider"></div>
                      <a class="dropdown-item" href="<?php echo($cerrarSesionURL); ?>">Cerrar sesión</a>
                   </div>

@@ -65,8 +65,7 @@ $(document).ready(function(){
       clienteEnEdicion = null;
    });
 
-   $(".dropdown-item").on("click", function(evento){
-      evento.preventDefault();
+   $(".dropdownLink").on("click", function(){
       if($(this).text().localeCompare($("#dropdownBusqueda").text()) != 0){
          $("#dropdownBusqueda").text($(this).text());
          $("#entradaBusqueda").val("");
@@ -128,7 +127,6 @@ $(document).ready(function(){
          .html("¿Realmente quiere eliminar al cliente <strong>" + cliente.nombre + " " + cliente.apellido + "</strong>?");
       $("#botonVentanaModalAux").trigger("click");
    });
-
 });
 
 function recargarClientes(){

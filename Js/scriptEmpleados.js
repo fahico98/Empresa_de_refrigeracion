@@ -67,8 +67,7 @@ $(document).ready(function(){
       empleadoEnEdicion = null;
    });
 
-   $(".dropdown-item").on("click", function(evento){
-      evento.preventDefault();
+   $(".dropdownLink").on("click", function(){
       if($(this).text().localeCompare($("#dropdownBusqueda").text()) != 0){
          $("#dropdownBusqueda").text($(this).text());
          $("#entradaBusqueda").val("");
@@ -129,7 +128,6 @@ $(document).ready(function(){
          .html("¿Realmente quiere eliminar al empleado <strong>" + empleado.nombre + " " + empleado.apellido + "</strong>?");
       $("#botonVentanaModalAux").trigger("click");
    });
-
 });
 
 function recargarEmpleados(){
