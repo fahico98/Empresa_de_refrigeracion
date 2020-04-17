@@ -45,7 +45,7 @@
                      style="width: 160px;">Nombre</button>
                   <div class="dropdown-menu">
                      <option value="nombre" class="dropdown-item dropdownLink">Nombre</option>
-                     <option value="apellido" class="dropdown-item dropdownLink">Tipo</option>
+                     <option value="tipo" class="dropdown-item dropdownLink">Tipo</option>
                   </div>
                </div>
                <div class="col ml-2 px-0 w-100">
