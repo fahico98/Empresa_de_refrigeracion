@@ -159,7 +159,7 @@
             </div>
 
          </div>
-         <table class="table">
+         <table class="table table-sm">
             <thead class="bg-primary text-white text-center align-middle">
                <tr>
                   <th scope="col">Id</th>

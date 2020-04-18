@@ -38,7 +38,6 @@ $productosURL = "http://localhost/WampCode/Yurani_Duque/Views/Productos";
                      <?php echo $_SESSION["nombre"]; ?>
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                     <a class="dropdown-item" href="#">Compras</a>
                      <a class="dropdown-item" href="<?php echo($clientesURL); ?>">Clientes</a>
                      <a class="dropdown-item" href="<?php echo($empleadosURL); ?>">Empleados</a>
                      <a class="dropdown-item" href="#">Vehiculos registrados</a>

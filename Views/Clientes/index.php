@@ -26,21 +26,19 @@
    <?php include("../Adiciones/navbar.php"); ?>
 
    <body>
-      <div class="container my-5">
-         <div class="row d-flex justify-content-center">
-            <h2 class="my-5">Clientes</h2>
-         </div>
+      <div class="container mb-3 mt-5">
+         <div class="row d-flex justify-content-center"><h2 class="my-3">Clientes</h2></div>
          <div class="row d-flex justify-content-start mx-1 my-2">
             <div class="form-group row mx-2 my-0">
 
                <!-- Boton para gregar un nuevo cliente -->
-               <button id="botonVentanaModal" type="button" class="btn btn-primary" data-toggle="modal"
+               <button id="botonVentanaModal" type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                   data-target="#ventanaModal">
                   Agregar cliente
                </button>
 
                <div class="btn-group ml-2">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                  <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
                      aria-haspopup="true" aria-expanded="false" id="dropdownBusqueda"
                      style="width: 160px;">Documento</button>
                   <div class="dropdown-menu">
@@ -51,7 +49,7 @@
                   </div>
                </div>
                <div class="col ml-2 px-0 w-100">
-                  <input type="text" class="form-control" id="entradaBusqueda" style="width: 300px;">
+                  <input type="text" class="form-control form-control-sm" id="entradaBusqueda" style="width: 300px;">
                </div>
             </div>
 
@@ -163,18 +161,18 @@
             </div>
 
          </div>
-         <table class="table">
+         <table class="table-sm w-100">
             <thead class="bg-primary text-white text-center align-middle">
                <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Documento</th>
-                  <th scope="col">Edad</th>
-                  <th scope="col">Teléfono</th>
-                  <th scope="col">Dirección</th>
-                  <th scope="col">E-mail</th>
-                  <th scope="col">Placa</th>
-                  <th scope="col"></th>
+                  <th scope="col" class="font-weight-normal">Id</th>
+                  <th scope="col" class="font-weight-normal">Nombre</th>
+                  <th scope="col" class="font-weight-normal">Documento</th>
+                  <th scope="col" class="font-weight-normal">Edad</th>
+                  <th scope="col" class="font-weight-normal">Teléfono</th>
+                  <th scope="col" class="font-weight-normal">Dirección</th>
+                  <th scope="col" class="font-weight-normal">E-mail</th>
+                  <th scope="col" class="font-weight-normal">Placa</th>
+                  <th scope="col" class="font-weight-normal"></th>
                </tr>
             </thead>
             <tbody id="cuerpoTabla"></tbody>

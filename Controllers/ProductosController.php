@@ -55,15 +55,15 @@ class ProductosController extends Producto{
             $salida .= 
                "<tr class='text-center'>
                   <th scope='row'>" . str_pad($producto->id, 6, "0", STR_PAD_LEFT) . "</th>
-                  <td>" . $producto->nombre .            "</td>
-                  <td>" . $producto->clase .             "</td>
-                  <td>" . $producto->marca .             "</td>
-                  <td>" . $producto->cantidad .          "</td>
-                  <td>" . $producto->costo_unitario .    "</td>
-                  <td>" . $producto->observaciones .     "</th>
-                  <td class='celdaDeAccion'>
-                     <a href='#' class='text-primary linkEditar' id='" . $producto->id . "'><small>Editar</small></a>
-                     <a href='#' class='text-danger linkEliminar' id='" . $producto->id . "'><small>Eliminar</small></a>
+                  <td>$producto->nombre</td>
+                  <td>$producto->clase</td>
+                  <td>$producto->marca</td>
+                  <td>$producto->cantidad</td>
+                  <td>$producto->costo_unitario</td>
+                  <td><a href='#' class='verObservacionesProducto' id='$producto->id'>ver</a></th>
+                  <td class='celdaDeAccion' id='$producto->id'>
+                     <a href='#' class='text-primary linkEditar' id='$producto->id'><small>Editar</small></a>
+                     <a href='#' class='text-danger linkEliminar' id='$producto->id'><small>Eliminar</small></a>
                   </td>
                </tr>";
          }

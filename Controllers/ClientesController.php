@@ -1,6 +1,6 @@
 <?php
 
-include '../Models/Cliente.php';
+include '..\Models\Cliente.php';
 
 class ClientesController extends Cliente{
    
@@ -59,16 +59,17 @@ class ClientesController extends Cliente{
             $salida .= 
                "<tr class='text-center'>
                   <th scope='row'>" . str_pad($cliente->id, 6, "0", STR_PAD_LEFT) . "</th>
-                  <td>" . $cliente->nombre . " " . $cliente->apellido . "</td>
-                  <td>" . $cliente->documento .             "</td>
-                  <td>" . $cliente->edad .                  "</td>
-                  <td>" . $cliente->telefono .              "</th>
-                  <td>" . $cliente->direccion .             "</td>
-                  <td>" . $cliente->email .                 "</td>
-                  <td>" . strtoupper($cliente->placa) .     "</td>
+                  <td><a href='http://localhost/WampCode/Yurani_Duque/Views/Compras?id=$cliente->id'
+                     class='text-dark font-weight-bold'>$cliente->nombre $cliente->apellido</a></td>
+                  <td>$cliente->documento</td>
+                  <td>$cliente->edad</td>
+                  <td>$cliente->telefono</th>
+                  <td>$cliente->direccion</td>
+                  <td>$cliente->email</td>
+                  <td>" . strtoupper($cliente->placa) . "</td>
                   <td class='celdaDeAccion'>
-                     <a href='#' class='text-primary linkEditar' id='" . $cliente->id . "'><small>Editar</small></a>
-                     <a href='#' class='text-danger linkEliminar' id='" . $cliente->id . "'><small>Eliminar</small></a>
+                     <a href='#' class='text-primary linkEditar' id='$cliente->id'><small>Editar</small></a>
+                     <a href='#' class='text-danger linkEliminar' id='$cliente->id'><small>Eliminar</small></a>
                   </td>
                </tr>";
          }

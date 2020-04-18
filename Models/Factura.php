@@ -2,15 +2,34 @@
 
 include '../Config/Conexion.php';
 
-class Servicio{
+class Factura{
 
    protected $id;
-   protected $nombre;
-   protected $tipo;
+   protected $cliente;
+   protected $fecha_hora;
    protected $costo;
-   protected $observaciones;
    protected $porPagina = 20;
 
+   protected function seleccionarFacturas($cliente_id, $parametro = "id", $valor = "", $pagina = 1){
+      $limite = "LIMIT " . ($pagina - 1) * $this->porPagina . ", " . $this->porPagina;
+      $query = strcmp($valor, "") == 0 ? "SELECT * FROM facturas WHERE cliente_id = '$cliente_id' ORDER BY id DESC $limite" : 
+         "SELECT * FROM facturas WHERE cliente_id = '$cliente_id' AND $parametro LIKE '%" . htmlentities(addslashes($valor)) .
+         "%' ORDER BY id DESC $limite";
+      $conexion = new Conexion();
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return $statement->fetchAll(PDO::FETCH_OBJ);
+   }
+
+
+
+
+
+
+
+
+
+   
    protected function guardarServicio(){
       $conexion = new Conexion();
       $query = "INSERT INTO servicios (nombre, tipo, costo, observaciones) 
@@ -44,33 +63,35 @@ class Servicio{
       $conexion->cerrarConexion();
    }
 
-   protected function seleccionarServicios($parametro = "nombre", $valor = "", $pagina = 1){
-      $limite = "LIMIT " . ($pagina - 1) * $this->porPagina . ", " . $this->porPagina;
-      $query = strcmp($valor, "") == 0 ? "SELECT * FROM servicios ORDER BY id DESC $limite" : 
-         "SELECT * FROM servicios WHERE $parametro LIKE '%" . htmlentities(addslashes($valor)) .
-         "%' ORDER BY id DESC $limite";
-      $conexion = new Conexion();
-      $statement = $conexion->pdo->query($query);
-      $conexion->cerrarConexion();
-      return $statement->fetchAll(PDO::FETCH_OBJ);
-   }
-
-   protected function totalPaginas($parametro, $valor){
-      $query = strcmp($valor, "") == 0 ? "SELECT * FROM servicios ORDER BY id DESC" :
-         "SELECT * FROM servicios WHERE $parametro LIKE '%" . htmlentities(addslashes($valor)) . "%' ORDER BY id DESC";
+   protected function totalPaginas($cliente_id, $parametro, $valor){
+      $query = strcmp($valor, "") == 0 ? "SELECT * FROM facturas WHERE cliente_id = '$cliente_id' ORDER BY id DESC" :
+         "SELECT * FROM servicios WHERE cliente_id = '$cliente_id' AND $parametro LIKE '%" .
+         htmlentities(addslashes($valor)) . "%' ORDER BY id DESC";
       $conexion = new Conexion();
       $statement = $conexion->pdo->query($query);
       $conexion->cerrarConexion();
       return ceil($statement->rowCount() / $this->porPagina);
    }
 
-   protected function seleccionarPorParametro($parametro, $valor){
+   protected function seleccionarPorParametro($cliente_id, $parametro = "", $valor = ""){
       $conexion = new Conexion();
-      $query = "SELECT * FROM servicios WHERE $parametro = '$valor'";
+      $query = strcmp($parametro, "") == 0 && strcmp($valor, "") == 0 ?
+         "SELECT * FROM servicios WHERE cliente_id = '$cliente_id' ORDER BY id DESC" :
+         "SELECT * FROM servicios WHERE $parametro LIKE '%" . htmlentities(addslashes($valor)) . "%' AND 
+         cliente_id = '$cliente_id' ORDER BY id DESC";
       $statement = $conexion->pdo->query($query);
       $conexion->cerrarConexion();
       return $statement->rowCount() == 0 ? null : json_encode($statement->fetchAll(PDO::FETCH_OBJ)[0]);
    }
+
+
+
+
+
+
+
+
+
 
    protected function eliminarServicio($id){
       $conexion = new conexion();

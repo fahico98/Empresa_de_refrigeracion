@@ -1,17 +1,46 @@
 <?php
    
-include '../Models/Servicio.php';
+include '../Models/Compra.php';
 
-class ServiciosController extends Servicio{
+class ComprasController extends Compra{
 
-   public function seleccionar($parametro, $valor, $pagina){
-      return $this->seleccionarServicios($parametro, $valor, $pagina);
+   public function tablaFacturas(){
+      return file_get_contents("../Views/ComprasCliente/tablaFacturas.php");
    }
 
-   public function seleccionarPorId($id){
-      return $this->seleccionarPorParametro("id", $id);
+   public function tablaProductos(){
+      return file_get_contents("../Views/ComprasCliente/tablaProductos.php");
    }
 
+   public function tablaServicios(){
+      return file_get_contents("../Views/ComprasCliente/tablaServicios.php");
+   }
+
+
+
+   public function seleccionar($cliente_id, $parametro, $valor, $pagina){
+      return $this->seleccionarFacturas($cliente_id, $parametro, $valor, $pagina);
+   }
+
+
+
+
+
+
+
+   public function seleccionarTodas($cliente_id){
+      return $this->seleccionarPorParametro($cliente_id);
+   }
+
+   public function seleccionarPorId($cliente_id, $id){
+      return $this->seleccionarPorParametro($cliente_id, "id", $id);
+   }
+
+   public function seleccionarPorFecha($cliente_id, $fecha_hora){
+      return $this->seleccionarPorParametro($cliente_id, "fecha_hora", $fecha_hora);
+   }
+
+   /*
    public function seleccionarPorNombre($nombre){
       return $this->seleccionarPorParametro("nombre", $nombre);
    }
@@ -19,7 +48,9 @@ class ServiciosController extends Servicio{
    public function seleccionarPorTipo($tipo){
       return $this->seleccionarPorParametro("tipo", $tipo);
    }
+   */
 
+   
    public function insertar($nombre, $tipo, $costo, $observaciones){
       $this->nombre = $nombre;
       $this->tipo = $tipo;
@@ -40,35 +71,32 @@ class ServiciosController extends Servicio{
       $this->eliminarServicio($id);
    }
 
-   public function plantillaServicios($servicios){
+   public function plantillaFacturas($factuas){
       $salida = "";
-      if(count($servicios) !== 0){
-         foreach($servicios as $servicio){
+      if(count($factuas) !== 0){
+         foreach($factuas as $factura){
             $salida .= 
                "<tr class='text-center'>
-                  <th scope='row'>" . str_pad($servicio->id, 6, "0", STR_PAD_LEFT) . "</th>
-                  <td>$servicio->nombre</td>
-                  <td>$servicio->tipo</td>
-                  <td>$servicio->costo</td>
-                  <td><a href='#' class='verObservacionesServicio' id='$servicio->id'>ver</a></th>
-                  <td class='celdaDeAccion' id='$servicio->id'>
-                     <a href='#' class='text-primary linkEditar' id='$servicio->id'><small>Editar</small></a>
-                     <a href='#' class='text-danger linkEliminar' id='$servicio->id'><small>Eliminar</small></a>
+                  <th scope='row'>" . str_pad($factura->id, 6, "0", STR_PAD_LEFT) . "</th>
+                  <td>" . $factura->fecha_hora .         "</td>
+                  <td>" . $factura->costo .              "</td>
+                  <td class='celdaDeAccion'>
+                     <a href='#' class='text-danger linkEliminar' id='" . $factura->id . "'><small>Eliminar</small></a>
                   </td>
                </tr>";
          }
       }else{
          $salida =
             "<tr><td colspan='9' class='text-center'>
-               <h4>No hay servicios para mostrar...</h4>
+               <h4>No hay facturas para mostrar...</h4>
             </td></tr>";
       }
       return $salida;
    }
 
-   public function plantillaPaginacion($parametro, $valor, $pagina){
+   public function plantillaPaginacion($cliente_id, $parametro, $valor, $pagina){
       $salida = "";
-      $totalPaginas = $this->totalPaginas($parametro, $valor);
+      $totalPaginas = $this->totalPaginas($cliente_id, $parametro, $valor);
       for($i = 1 ; $i <= $totalPaginas; $i++){
          if($i == $pagina){
             $salida .= "<button type='button' class='btn btn-primary btn-sm ml-1 botonPagina' id='$i' disabled>$i</button>";
@@ -80,26 +108,53 @@ class ServiciosController extends Servicio{
    }
 }
 
+if(isset($_GET['accion'])){
+   if($_GET['accion'] == "tabla_facturas"){
+      $compCont = new ComprasController();
+      echo $compCont->tablaFacturas();
+   }
+}
+
+if(isset($_GET['accion'])){
+   if($_GET['accion'] == "tabla_productos"){
+      $compCont = new ComprasController();
+      echo $compCont->tablaProductos();
+   }
+}
+
+if(isset($_GET['accion'])){
+   if($_GET['accion'] == "tabla_servicios"){
+      $compCont = new ComprasController();
+      echo $compCont->tablaServicios();
+   }
+}
+
+
+
+
+
+
+/*
+if(isset($_GET["accion"])){
+   if($_GET["accion"] == "seleccionar"){
+      $servCont = new ServiciosController();
+      $salida = $servCont->seleccionarPorId($_GET['cliente_id']);
+      echo $salida == null ? "null" : $salida;
+   }
+}
+
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "seleccionar_id"){
       $servCont = new ServiciosController();
-      $salida = $servCont->seleccionarPorId($_GET["valor"]);
+      $salida = $servCont->seleccionarPorId($_GET['cliente_id'], $_GET["valor"]);
       echo $salida == null ? "null" : $salida;
    }
 }
 
 if(isset($_GET["accion"])){
-   if($_GET["accion"] == "seleccionar_nombre"){
+   if($_GET["accion"] == "seleccionar_fecha_hora"){
       $servCont = new ServiciosController();
-      $salida = $servCont->seleccionarPorNombre($_GET["valor"]);
-      echo $salida == null ? "null" : $salida;
-   }
-}
-
-if(isset($_GET["accion"])){
-   if($_GET["accion"] == "seleccionar_tipo"){
-      $servCont = new ServiciosController();
-      $salida = $servCont->seleccionarPorTipo($_GET["valor"]);
+      $salida = $servCont->seleccionarPorFecha($_GET["cliente_id"], $_GET["valor"]);
       echo $salida == null ? "null" : $salida;
    }
 }
@@ -141,21 +196,16 @@ if(isset($_GET['accion'])){
       );
    }
 }
+*/
 
 if(isset($_GET["accion"])){
    if($_GET["accion"] == "paginacion"){
-      $servCont = new ServiciosController();
-      echo $servCont->plantillaPaginacion(
+      $factCont = new FacturasController();
+      echo $factCont->plantillaPaginacion(
+         $_GET["cliente_id"],
          $_GET["parametro"],
          $_GET["valor"],
          $_GET["pagina"]
       );
-   }
-}
-
-if(isset($_GET["accion"])){
-   if($_GET["accion"] == "eliminar"){
-      $servCont = new ServiciosController();
-      $servCont->eliminar($_GET["id"]);
    }
 }
