@@ -42,7 +42,10 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
             <div class="form-group row mx-2 my-0 w-100">
 
                <h5 class="my-2 mr-2"><?php echo "$cliente->nombre $cliente->apellido"; ?></h5>
+
                <input type="hidden" value="<?php echo $cliente->id; ?>" id="clienteId">
+               <input type="hidden" value="#" id="productoId">
+               <input type="hidden" value="#" id="servicioId">
 
                <div class="my-auto">
                   <button id="botonVentanaModal" type="button" class="btn btn-sm btn-primary mr-2" data-toggle="modal"
@@ -61,7 +64,7 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
 
             </div>
 
-            <!-- Formulario en ventana modal -->
+            <!-- Ventana modal de carrito de compras -->
             <div class="modal fade border-dark" id="carritoModal" tabindex="-1" role="dialog"
                aria-labelledby="tituloCarritoModal" aria-hidden="true">
                <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -93,36 +96,39 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
                </div>
             </div>
 
-            <!-- Boton oculto -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ventanaModalCompra"
-               id="botonVentanaModalCompra" hidden>
-               Launch demo modal
-            </button>
+            <!--
+            <button id="botonVentanaModalAux" type="hidden" data-toggle="modal" data-target="#ventanaModalAux">
+               ...
+            </button>            
 
-            <!-- Ventana modal auxiliar -->
-            <div class="modal fade" id="ventanaModalCompra" tabindex="-1" role="dialog" aria-hidden="true"
-               aria-labelledby="ventanaModalCompraTitulo">
-               <div class="modal-dialog" role="document">
+            <!-- Ventana modal auxiliar 
+            <div class="modal fade border-dark" id="ventanaModalAux" tabindex="-1" aria-labelledby="tituloVentanaModalAux"
+               role="dialog" aria-hidden="true">
+               <div class="modal-dialog modal-dialog-scrollable" role="document">
                   <div class="modal-content">
+
                      <div class="modal-header bg-primary">
-                        <h5 class="modal-title text-white" id="ventanaModalCompraTitulo">Cantidad</h5>
+                        <h5 class="modal-title text-white" id="tituloVentanaModalAux">...</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                            <span aria-hidden="true">&times;</span>
                         </button>
                      </div>
-                     <div class="modal-body">
-                        <p id="contenidoVentanaModalAux"></p>
+
+                     <div class="modal-body" id="ventanaModalAuxBody">
+
                      </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="botonAgregarCantidad">Agregar al carrito</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="botonCancelarAgregarCantidad">
+
+                     <div class="modal-footer my-0 py-3 pb-0">
+                        <button type="button" class="btn btn-primary" id="botonAceptarAux">Aceptar</button>
+                        <button type="button" class="btn btn-secondary" id="botonCancelarAux" data-dismiss="modal">
                            Cancelar
                         </button>
                      </div>
-                     <input type="hidden" id="idEliminar">
                   </div>
                </div>
             </div>
+            -->
+
          </div>
 
          <div id="containerTabla"></div>
