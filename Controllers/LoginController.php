@@ -39,6 +39,7 @@ class LoginController extends Login{
          if(password_verify($contrasena, $datosLogin->contrasena)){
             if($ajax){ echo("credenciales_validas"); }else{
                session_start();
+               $_SESSION["id"] = $datosLogin->empleado_id;
                $_SESSION["nombre"] = $this->nombreEmpleado($datosLogin->empleado_id);
                $_SESSION["usuario"] = $datosLogin->usuario;
                $_SESSION["rol"] = $datosLogin->rol;

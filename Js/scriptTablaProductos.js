@@ -1,4 +1,6 @@
 
+paginaActual = 1;
+
 $(document).ready(function(){
    
    $(".dropdown-item").css("cursor", "pointer");
@@ -20,22 +22,6 @@ $(document).ready(function(){
          $("#entradaBusqueda").val("");
          cargarProductos($(this).text(), "", 1);
       }
-   });
-
-   $(".linkComprarProducto").on("click", function(evento){
-      evento.preventDefault();
-      $("#productoId").val($(this).attr("id"));
-      $("#tituloVetanaModalAux").text("Comprar");
-      $("#botonAceptarAux").text("Agregar al carrito").removeAttr("data-dismiss");
-      $("#botonCancelarAux").text("Cancelar").attr("hidden", false).attr("data-dismiss", "modal");
-      $("#contenidoVentanaModalAux").html(
-         "<div class='form-group input-group-sm'>" +
-            "<label for='cantProducto'>Cantidad de producto</label>" +
-            "<input type='number' class='form-control' id='cantProducto' aria-describedby='subCantProducto' value='0'>" +
-            "<small id='subCantProducto' style='color: red;' class='helpText mb-0 pb-0'></small>" +
-         "</div>"
-      );
-      $("#botonVentanaModalAux").trigger("click");
    });
 
    $(".verObservacionesProducto").on("click", function(evento){
@@ -66,22 +52,50 @@ $(document).ready(function(){
                $("#subCantProducto").text("No hay suficiente producto en el inventario para realizar esta compra...");
             }else{
                $("#subCantProducto").text("");
-               agregarAlCarrito(producto, cantidad);
+               agregarAlCarrito($("#productoId").val(), producto, cantidad);
                $("#botonCancelarAux").trigger("click");
             }
          }
       }
    });
+
+   $(document).on("click", ".botonPagina", function(evento){
+      evento.preventDefault();
+      let pagina = $(this).attr("id");
+      let parametro = $("#dropdownBusqueda").text().toLowerCase();
+      let valor = $("#entradaBusqueda").val();
+      paginaActual = pagina;
+      cargarProductos(parametro, valor, pagina);
+   });
+
+   $(document).on("click", ".linkComprarProducto", function(evento){
+      evento.preventDefault();
+      $("#productoId").val($(this).attr("id"));
+      $("#tituloVetanaModalAux").text("Comprar");
+      $("#botonAceptarAux").text("Agregar al carrito").removeAttr("data-dismiss");
+      $("#botonCancelarAux").text("Cancelar").attr("hidden", false).attr("data-dismiss", "modal");
+      $("#contenidoVentanaModalAux").html(
+         "<div class='form-group input-group-sm'>" +
+            "<label for='cantProducto'>Cantidad de producto</label>" +
+            "<input type='number' class='form-control' id='cantProducto' aria-describedby='subCantProducto' value='0'>" +
+            "<small id='subCantProducto' style='color: red;' class='helpText mb-0 pb-0'></small>" +
+         "</div>"
+      );
+      $("#botonVentanaModalAux").trigger("click");
+   });
 });
 
-function agregarAlCarrito(producto, cantidad){
+function agregarAlCarrito(id, producto, cantidad){
    carrito.push({
-      tipo: "producto",
-      producto: producto.nombre,
+      producto_id: id,
+      empleado_id: $("#empleadoId").val(),
+      nombre: producto.nombre,
       cantidad: parseInt(cantidad, 10),
       costoUnitario: parseInt(producto.costo_unitario, 10),
       costoTotal: parseInt(producto.costo_unitario, 10) * parseInt(cantidad, 10)
    });
+   costoFactura += parseInt(producto.costo_unitario, 10) * parseInt(cantidad, 10);
+   actualizarCarrito();
 }
 
 function cargarProductoPorParametro(parametro, valor){
@@ -99,43 +113,47 @@ function cargarProductoPorParametro(parametro, valor){
    return salida;
 }
 
-function cargarProductos(parametro = "id", valor = "", pagina = 1){
+function recargarProductos(){
+   cargarProductos(
+      $("#dropdownBusqueda").text().toLowerCase(),
+      $("#entradaBusqueda").val(),
+      paginaActual
+   );
+}
 
+function cargarProductos(parametro = "id", valor = "", pagina = 1){
    let data = {
       accion: "seleccionar",
       parametro: parametro,
       valor: valor,
       pagina: pagina
    };
-
    $.ajax({
       type: "GET",
       url: "http://localhost/WampCode/Yurani_Duque/Controllers/ProductosController.php",
       data: data,
       dataType: "html",
+      async: false,
       success: function(response){
          $("#cuerpoTabla").html(response);
-      }, async: false
+      }
    });
-
    $(".celdaDeAccion").each(function(index){
       $(this).html(
-         "<a href='#' class='text-primary linkComprarProducto' id='" + $(this).attr("id") + "'><small>Comprar</small></a>"
+         "<a href='#' class='text-primary linkComprarProducto' id='" + $(this).attr("id") + "'><small>comprar</small></a>"
       );
    });
-
    data.accion = "paginacion";
-
    $.ajax({
       type: "GET",
       url: "http://localhost/WampCode/Yurani_Duque/Controllers/ProductosController.php",
       data: data,
       dataType: "html",
+      async: false,
       success: function(response){
          $("#paginacion").html(response);
-      }, async: false
+      }
    });
-
    $("td").addClass("align-middle mx-0 px-0");
    $("th").addClass("align-middle mx-0 px-0");
 }

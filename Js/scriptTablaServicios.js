@@ -1,4 +1,6 @@
 
+paginaActual = 1;
+
 $(document).ready(function(){
 
    $(".dropdown-item").css("cursor", "pointer");
@@ -11,7 +13,7 @@ $(document).ready(function(){
       evento.preventDefault();
       let parametro = $("#dropdownBusqueda").text().toLowerCase();
       let valor = $(this).val();
-      cargarSercivios(parametro, valor, 1);
+      cargarServicios(parametro, valor, 1);
    });
 
    $(".dropdownLink").on("click", function(){
@@ -20,22 +22,6 @@ $(document).ready(function(){
          $("#entradaBusqueda").val("");
          cargarServicios($(this).text(), "", 1);
       }
-   });
-
-   $(".linkComprarServicio").on("click", function(evento){
-      evento.preventDefault();
-      $("#servicioId").val($(this).attr("id"));
-      $("#tituloVetanaModalAux").text("Comprar");
-      $("#botonAceptarAux").text("Agregar al carrito").removeAttr("data-dismiss");
-      $("#botonCancelarAux").text("Cancelar").attr("hidden", false).attr("data-dismiss", "modal");
-      $("#contenidoVentanaModalAux").html(
-         "<div class='form-group input-group-sm'>" +
-            "<label for='cantServicio'>Cantidad de servicio</label>" +
-            "<input type='number' class='form-control' id='cantServicio' aria-describedby='subCantServicio' value='0'>" +
-            "<small id='subCantServicio' style='color: red;' class='helpText mb-0 pb-0'></small>" +
-         "</div>"
-      );
-      $("#botonVentanaModalAux").trigger("click");
    });
 
    $(".verObservacionesServicio").on("click", function(evento){
@@ -62,21 +48,49 @@ $(document).ready(function(){
             $("#subCantServicio").text("Cantidad de servicios no valida...");
          }else{
             $("#subCantServicio").text("");
-            agregarAlCarrito(servicio, cantidad);
+            agregarAlCarrito($("#servicioId").val(), servicio, cantidad);
             $("#botonCancelarAux").trigger("click");
          }
       }
    });
+
+   $(document).on("click", ".botonPagina", function(evento){
+      evento.preventDefault();
+      let pagina = $(this).attr("id");
+      let parametro = $("#dropdownBusqueda").text().toLowerCase();
+      let valor = $("#entradaBusqueda").val();
+      paginaActual = pagina;
+      cargarProductos(parametro, valor, pagina);
+   });
+
+   $(document).on("click", ".linkComprarServicio", function(evento){
+      evento.preventDefault();
+      $("#servicioId").val($(this).attr("id"));
+      $("#tituloVetanaModalAux").text("Comprar");
+      $("#botonAceptarAux").text("Agregar al carrito").removeAttr("data-dismiss");
+      $("#botonCancelarAux").text("Cancelar").attr("hidden", false).attr("data-dismiss", "modal");
+      $("#contenidoVentanaModalAux").html(
+         "<div class='form-group input-group-sm'>" +
+            "<label for='cantServicio'>Cantidad de servicio</label>" +
+            "<input type='number' class='form-control' id='cantServicio' aria-describedby='subCantServicio' value='0'>" +
+            "<small id='subCantServicio' style='color: red;' class='helpText mb-0 pb-0'></small>" +
+         "</div>"
+      );
+      $("#botonVentanaModalAux").trigger("click");
+   });
 });
 
-function agregarAlCarrito(servicio, cantidad){
+function agregarAlCarrito(id, servicio, cantidad){
    carrito.push({
-      tipo: "servicio",
-      servicio: servicio.nombre,
+      servicio_id: id,
+      empleado_id: $("#empleadoId").val(),
+      nombre: servicio.nombre,
       cantidad: parseInt(cantidad, 10),
       costoUnitario: parseInt(servicio.costo, 10),
       costoTotal: parseInt(servicio.costo, 10) * parseInt(cantidad, 10)
    });
+   costoFactura += parseInt(servicio.costo, 10) * parseInt(cantidad, 10);
+   actualizarCarrito();
 }
 
 function cargarServicioPorParametro(parametro, valor){
@@ -94,44 +108,48 @@ function cargarServicioPorParametro(parametro, valor){
    return salida;
 }
 
+function recargarServicios(){
+   cargarServicios(
+      $("#dropdownBusqueda").text().toLowerCase(),
+      $("#entradaBusqueda").val(),
+      paginaActual
+   );
+}
+
 
 function cargarServicios(parametro = "id", valor = "", pagina = 1){
-
    let data = {
       accion: "seleccionar",
       parametro: parametro,
       valor: valor,
       pagina: pagina
    };
-
    $.ajax({
       type: "GET",
       url: "http://localhost/WampCode/Yurani_Duque/Controllers/ServiciosController.php",
       data: data,
       dataType: "html",
+      async: false,
       success: function(response){
          $("#cuerpoTabla").html(response);
-      }, async: false
+      }
    });
-
    $(".celdaDeAccion").each(function(index){
       $(this).html(
-         "<a href='#' class='text-primary linkComprarServicio' id='" + $(this).attr("id") + "'><small>Comprar</small></a>"
+         "<a href='#' class='text-primary linkComprarServicio' id='" + $(this).attr("id") + "'><small>comprar</small></a>"
       );
    });
-
    data.accion = "paginacion";
-
    $.ajax({
       type: "GET",
       url: "http://localhost/WampCode/Yurani_Duque/Controllers/ServiciosController.php",
       data: data,
       dataType: "html",
+      async: false,
       success: function(response){
          $("#paginacion").html(response);
-      }, async: false
+      }
    });
-
    $("td").addClass("align-middle mx-0 px-0");
    $("th").addClass("align-middle mx-0 px-0");
 }

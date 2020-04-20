@@ -77,20 +77,20 @@ class Iniciador{
 
       $query = "CREATE TABLE IF NOT EXISTS compras (
             id                      INT(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-            producto_id             INT(6) DEFAULT 0,
-            servicio_id             INT(6) DEFAULT 0,
-            empleado_id             INT(6) DEFAULT 0,
-            factura_id              INT(6) DEFAULT 0,
+            producto_id             INT(6) DEFAULT NULL,
+            servicio_id             INT(6) DEFAULT NULL,
+            empleado_id             INT(6) DEFAULT NULL,
+            factura_id              INT(6) DEFAULT NULL,
             cantidad_producto       INT DEFAULT NULL,
             costo_compra            INT DEFAULT NULL,
-            fecha_hora              DATETIME NOT NULL
+            fecha_hora              DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
          ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish2_ci;";
       $this->conexion->pdo->query($query);
 
       $query = "CREATE TABLE IF NOT EXISTS facturas (
             id                      INT(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
             cliente_id              INT(6) NOT NULL,
-            fecha_hora              DATETIME NOT NULL,
+            fecha_hora              DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
             costo_factura           INT DEFAULT 0
          ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish2_ci;";
       $this->conexion->pdo->query($query);

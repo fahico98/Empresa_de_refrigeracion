@@ -1,5 +1,6 @@
 
 var carrito = [];
+var costoFactura = 0;
 
 $(document).ready(function(){
 
@@ -15,126 +16,105 @@ $(document).ready(function(){
       cargarTabla($(this).val());
    });
 
-   /*
-   cargarProductos("nombre", "", 1);
-
-   $("#formulario").on("submit", function(event){
-      event.preventDefault();
-      if(validarFormulario()){
-         var datosFormulario = new FormData(this);
-         if($("#tituloVentanaModal").text() == "Editar empleado"){
-            datosFormulario.set("accion", "editar");
-            $.ajax({
-               type: "POST",
-               url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
-               d/ata: datosFormulario,
-               processData: false,
-               contentType: false,
-               success: function(){
-                  empleadoEnEdicion = null;
-                  $("#botonCancelar").trigger("click");
-                  recargarEmpleados();
-               }, async: false
-            });
-         }else if($("#tituloVentanaModal").text() == "Registrar nuevo empleado"){
-            $.ajax({
-               type: "POST",
-               url: "http://localhost/WampCode/Yurani_Duque/Controllers/EmpleadosController.php",
-               d/ata: datosFormulario,
-               processData: false,
-               contentType: false,
-               success: function(){
-                  $("#botonCancelar").trigger("click");
-                  recargarEmpleados();
-               }, async: false
-            });
-         }
+   $("#botonCarritoModal").on("click", function(evento){
+      evento.preventDefault();
+      if(carrito.length > 0){
+         $("#botonTerminarCompra").attr("disabled", false);
+         $("#botonVaciarCarrito").attr("disabled", false);
+      }else{
+         $("#botonTerminarCompra").attr("disabled", true);
+         $("#botonVaciarCarrito").attr("disabled", true);
       }
    });
 
-   $("#botonEnviar").on("click", function(evento){
+   $("#botonVaciarCarrito").on("click", function(evento){
       evento.preventDefault();
-      $("#formulario").trigger("submit");
+      costoFactura = 0;
+      carrito = [];
+      $("#botonCerrarCarrito").trigger("click");
+      actualizarCarrito();
    });
 
-   $("#botonCancelar").on("click", function(evento){
+   $("#botonTerminarCompra").on("click", function(evento){
       evento.preventDefault();
-      empleadoEnEdicion = null;
+      terminarCompra();
    });
-
-   $(".dropdownLink").on("click", function(){
-      if($(this).text().localeCompare($("#dropdownBusqueda").text()) != 0){
-         $("#dropdownBusqueda").text($(this).text());
-         $("#entradaBusqueda").val("");
-         cargarEmpleados($(this).text(), "", 1);
-      }
-   });
-
-   $("#entradaBusqueda").on("keyup", function(evento){
-      evento.preventDefault();
-      let parametro = $("#dropdownBusqueda").text().toLowerCase();
-      let valor = $(this).val();
-      cargarEmpleados(parametro, valor, 1);
-   });
-
-   $("#botonVentanaModal").on("click", function(evento){
-      evento.preventDefault();
-      reiniciarFormulario();
-      $("#tituloVentanaModal").text("Registrar nuevo empleado");
-   });
-
-   $("#botonEliminarAux").on("click", function(evento){
-      evento.preventDefault();
-      eliminarEmpleado($("#idEliminar").val());
-      $("#botonCancelarAux").trigger("click");
-      cargarEmpleados($("#dropdownBusqueda").text().toLowerCase(), $("#entradaBusqueda").val(), 1);
-   });
-
-   $(document).on("click", ".botonPagina", function(evento){
-      evento.preventDefault();
-      let pagina = $(this).attr("id");
-      let parametro = $("#dropdownBusqueda").text().toLowerCase();
-      let valor = $("#entradaBusqueda").val();
-      paginaActual = pagina;
-      cargarEmpleados(parametro, valor, pagina);
-   });
-
-   $(document).on("click", ".linkEditar", function(evento){
-      evento.preventDefault();
-      let empleado = cargarEmpleadoPorParametro("id", $(this).attr("id"));
-      empleadoEnEdicion = empleado;
-      $("#botonVentanaModal").trigger("click");
-      $("#tituloVentanaModal").text("Editar empleado");
-      $("#entradaId").val($(this).attr("id"));
-      $("#entradaNombre").val(empleado.nombre);
-      $("#entradaApellido").val(empleado.apellido);
-      $("#entradaDocumento").val(empleado.documento);
-      $("#entradaTelefono").val(empleado.telefono);
-      $("#entradaCargo").val(empleado.cargo);
-      $("#entradaSueldo").val(empleado.sueldo);
-      $("#entradaUsuario").val(empleado.usuario);
-   });
-
-   $(document).on("click", ".linkEliminar", function(event){
-      event.preventDefault();
-      let empleado = cargarEmpleadoPorParametro("id", $(this).attr("id"));
-      $("#idEliminar").val(empleado.id);
-      $("#contenidoVentanaModalAux")
-         .html("¿Realmente quiere eliminar al empleado <strong>" + empleado.nombre + " " + empleado.apellido + "</strong>?");
-      $("#botonVentanaModalAux").trigger("click");
-   });
-   */
-
 });
+
+function terminarCompra(){
+   $.ajax({
+      type: "GET",
+      dataType: "json",
+      async: false,
+      url: "http://localhost/WampCode/Yurani_Duque/Controllers/FacturasController.php",
+      data: {accion: "insertar", cliente_id: $("#clienteId").val(), costo: costoFactura},
+      success: function(response){
+         let factura_id = response["LAST_INSERT_ID()"];
+         carrito.forEach(function(compra){
+            compra.factura_id = factura_id;
+            compra.accion = "insertar";
+            $.ajax({
+               type: "GET",
+               async: false,
+               url: "http://localhost/WampCode/Yurani_Duque/Controllers/ComprasController.php",
+               data: compra
+            });
+         });
+      }
+   });
+   $("#botonVaciarCarrito").trigger("click");
+}
 
 function cargarTabla(tabla){
    $.ajax({
       type: "GET",
-      url: "http://localhost/WampCode/Yurani_Duque/Controllers/ComprasController.php",
+      url: "http://localhost/WampCode/Yurani_Duque/Controllers/FacturasController.php",
       data: {accion: "tabla_" + tabla},
+      async: false,
       dataType: "html",
       success: function(response){
          $("#containerTabla").html(response);
-      }, async: false
+      }
    });
+}
+
+function actualizarCarrito(){
+   if(carrito.length > 0){
+      $("#botonTerminarCompra").attr("disabled", false);
+      $("#botonVaciarCarrito").attr("disabled", false);
+      let table = $("<table class='table-sm w-100'>");
+      let thead = $(
+         "<thead><tr>" +
+            "<th><small class='font-weight-bold'>producto/servicio</small></th>" +
+            "<th><small class='font-weight-bold'>cantidad</small></th>" +
+            "<th><small class='font-weight-bold'>costo unitario</small></th>" +
+            "<th><small class='font-weight-bold'>costo total</small></th>"
+      );
+      table.append(thead);
+      carrito.forEach(function(elemento){
+         table.append(
+            "<tr>" +
+               "<td><small>" + elemento.nombre + "</small></td>" +
+               "<td><small>" + elemento.cantidad + "</small></td>" +
+               "<td><small>" + elemento.costoUnitario + "</small></td>" +
+               "<td><small>" + elemento.costoTotal + "</small></td>" +
+            "</tr>"
+         );
+      });
+      table.append(
+         "<tr>" +
+            "<td></td><td></td><td></td>" +
+            "<td><small class='font-weight-bold'>" + costoFactura + "</small></td>" +
+         "</tr>"
+      );
+      $("#modalCarritoBody").html(table);
+   }else{
+      $("#botonTerminarCompra").attr("disabled", true);
+      $("#botonVaciarCarrito").attr("disabled", true);
+      $("#modalCarritoBody").html(
+         "<div>" +
+            "<p><strong>No hay productos en el carrito...</strong></p>" +
+         "</div>"
+      );
+   }
 }

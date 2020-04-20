@@ -8,8 +8,6 @@ $iniciador->crearTablas();
 $iniciador->llenarTablas();
 */
 
-// session_destroy();
-
 session_start();
 
 ?>

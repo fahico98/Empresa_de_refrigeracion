@@ -44,11 +44,12 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
                <h5 class="my-2 mr-2"><?php echo "$cliente->nombre $cliente->apellido"; ?></h5>
 
                <input type="hidden" value="<?php echo $cliente->id; ?>" id="clienteId">
+               <input type="hidden" value="<?php echo $_SESSION['id']; ?>" id="empleadoId">
                <input type="hidden" value="#" id="productoId">
                <input type="hidden" value="#" id="servicioId">
 
                <div class="my-auto">
-                  <button id="botonVentanaModal" type="button" class="btn btn-sm btn-primary mr-2" data-toggle="modal"
+                  <button id="botonCarritoModal" type="button" class="btn btn-sm btn-primary mr-1" data-toggle="modal"
                      data-target="#carritoModal">
                      Carrito
                   </button>
@@ -65,9 +66,9 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
             </div>
 
             <!-- Ventana modal de carrito de compras -->
-            <div class="modal fade border-dark" id="carritoModal" tabindex="-1" role="dialog"
+            <div class="modal fade border-dark bd-example-modal-lg" tabindex="-1" role="dialog" id="carritoModal"
                aria-labelledby="tituloCarritoModal" aria-hidden="true">
-               <div class="modal-dialog modal-dialog-scrollable" role="document">
+               <div class="modal-dialog modal-lg modal-dialog-scrollable">
                   <div class="modal-content">
 
                      <div class="modal-header bg-primary">
@@ -77,12 +78,10 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
                         </button>
                      </div>
 
-                     <div class="modal-body" id="modalBody">
-
+                     <div class="modal-body" id="modalCarritoBody">
                         <div>
                            <p><strong>No hay productos en el carrito...</strong></p>
                         </div>
-                        
                      </div>
 
                      <div class="modal-footer my-0 py-3 pb-0">

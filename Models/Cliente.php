@@ -12,7 +12,7 @@ class Cliente{
    protected $direccion;
    protected $email;
    protected $placa;
-   protected $porPagina = 2;
+   protected $porPagina = 20;
    
    protected function guardarCliente(){
       $conexion = new Conexion();

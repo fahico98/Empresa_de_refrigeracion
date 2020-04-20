@@ -59,7 +59,7 @@ class ClientesController extends Cliente{
             $salida .= 
                "<tr class='text-center'>
                   <th scope='row'>" . str_pad($cliente->id, 6, "0", STR_PAD_LEFT) . "</th>
-                  <td><a href='http://localhost/WampCode/Yurani_Duque/Views/Compras?id=$cliente->id'
+                  <td><a href='http://localhost/WampCode/Yurani_Duque/Views/ComprasCliente?id=$cliente->id'
                      class='text-dark font-weight-bold'>$cliente->nombre $cliente->apellido</a></td>
                   <td>$cliente->documento</td>
                   <td>$cliente->edad</td>

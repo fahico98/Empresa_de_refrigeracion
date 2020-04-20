@@ -50,7 +50,7 @@ class ServiciosController extends Servicio{
                   <td>$servicio->nombre</td>
                   <td>$servicio->tipo</td>
                   <td>$servicio->costo</td>
-                  <td><a href='#' class='verObservacionesServicio' id='$servicio->id'>ver</a></th>
+                  <td><a href='#' class='verObservacionesServicio' id='$servicio->id'><small>ver</small></a></th>
                   <td class='celdaDeAccion' id='$servicio->id'>
                      <a href='#' class='text-primary linkEditar' id='$servicio->id'><small>Editar</small></a>
                      <a href='#' class='text-danger linkEliminar' id='$servicio->id'><small>Eliminar</small></a>

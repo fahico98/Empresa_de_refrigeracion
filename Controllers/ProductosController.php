@@ -60,7 +60,7 @@ class ProductosController extends Producto{
                   <td>$producto->marca</td>
                   <td>$producto->cantidad</td>
                   <td>$producto->costo_unitario</td>
-                  <td><a href='#' class='verObservacionesProducto' id='$producto->id'>ver</a></th>
+                  <td><a href='#' class='verObservacionesProducto' id='$producto->id'><small>ver</small></a></th>
                   <td class='celdaDeAccion' id='$producto->id'>
                      <a href='#' class='text-primary linkEditar' id='$producto->id'><small>Editar</small></a>
                      <a href='#' class='text-danger linkEliminar' id='$producto->id'><small>Eliminar</small></a>

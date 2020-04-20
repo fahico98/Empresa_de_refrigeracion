@@ -5,8 +5,7 @@ include '../Config/Conexion.php';
 class Factura{
 
    protected $id;
-   protected $cliente;
-   protected $fecha_hora;
+   protected $cliente_id;
    protected $costo;
    protected $porPagina = 20;
 
@@ -21,6 +20,41 @@ class Factura{
       return $statement->fetchAll(PDO::FETCH_OBJ);
    }
 
+   protected function insertarFactura(){
+      $conexion = new Conexion();
+      $query =
+         "INSERT INTO facturas (cliente_id, costo_factura) VALUES ($this->cliente_id, $this->costo)";
+      $statement = $conexion->pdo->query($query);
+      $query = "SELECT LAST_INSERT_ID()";
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return json_encode($statement->fetchAll(PDO::FETCH_OBJ)[0]);
+   }
+
+   protected function totalPaginas($cliente_id, $parametro, $valor){
+      $query = strcmp($valor, "") == 0 ? "SELECT * FROM facturas WHERE cliente_id = '$cliente_id' ORDER BY id DESC" :
+         "SELECT * FROM facturas WHERE cliente_id = '$cliente_id' AND $parametro LIKE '%" .
+         htmlentities(addslashes($valor)) . "%' ORDER BY id DESC";
+      $conexion = new Conexion();
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return ceil($statement->rowCount() / $this->porPagina);
+   }
+
+   protected function seleccionarFacturaPorId($id){
+      $conexion = new Conexion();
+      $query = "SELECT * FROM facturas WHERE id = $id";
+      $statement = $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+      return json_encode($statement->fetchAll(PDO::FETCH_OBJ)[0]);
+   }
+
+   protected function eliminarFactura($id){
+      $conexion = new conexion();
+      $query = "DELETE FROM facturas WHERE id = '$id'";
+      $conexion->pdo->query($query);
+      $conexion->cerrarConexion();
+   }
 
 
 
@@ -29,7 +63,8 @@ class Factura{
 
 
 
-   
+
+   /*
    protected function guardarServicio(){
       $conexion = new Conexion();
       $query = "INSERT INTO servicios (nombre, tipo, costo, observaciones) 
@@ -63,16 +98,6 @@ class Factura{
       $conexion->cerrarConexion();
    }
 
-   protected function totalPaginas($cliente_id, $parametro, $valor){
-      $query = strcmp($valor, "") == 0 ? "SELECT * FROM facturas WHERE cliente_id = '$cliente_id' ORDER BY id DESC" :
-         "SELECT * FROM servicios WHERE cliente_id = '$cliente_id' AND $parametro LIKE '%" .
-         htmlentities(addslashes($valor)) . "%' ORDER BY id DESC";
-      $conexion = new Conexion();
-      $statement = $conexion->pdo->query($query);
-      $conexion->cerrarConexion();
-      return ceil($statement->rowCount() / $this->porPagina);
-   }
-
    protected function seleccionarPorParametro($cliente_id, $parametro = "", $valor = ""){
       $conexion = new Conexion();
       $query = strcmp($parametro, "") == 0 && strcmp($valor, "") == 0 ?
@@ -83,20 +108,5 @@ class Factura{
       $conexion->cerrarConexion();
       return $statement->rowCount() == 0 ? null : json_encode($statement->fetchAll(PDO::FETCH_OBJ)[0]);
    }
-
-
-
-
-
-
-
-
-
-
-   protected function eliminarServicio($id){
-      $conexion = new conexion();
-      $query = "DELETE FROM servicios WHERE id = '$id'";
-      $conexion->pdo->query($query);
-      $conexion->cerrarConexion();
-   }
+   */
 }

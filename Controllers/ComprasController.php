@@ -4,23 +4,30 @@ include '../Models/Compra.php';
 
 class ComprasController extends Compra{
 
-   public function tablaFacturas(){
-      return file_get_contents("../Views/ComprasCliente/tablaFacturas.php");
+   public function insertarProducto($producto_id, $empleado_id, $factura_id, $cantidad, $costo_compra){
+      $this->servicio_id = null;
+      $this->producto_id = $producto_id;
+      $this->empleado_id = $empleado_id;
+      $this->factura_id = $factura_id;
+      $this->cantidad = $cantidad;
+      $this->costo_compra = $costo_compra;
+      $this->insertarCompraProducto();
    }
 
-   public function tablaProductos(){
-      return file_get_contents("../Views/ComprasCliente/tablaProductos.php");
+   public function insertarServicio($servicio_id, $empleado_id, $factura_id, $cantidad, $costo_compra){
+      $this->producto_id = null;
+      $this->servicio_id = $servicio_id;
+      $this->empleado_id = $empleado_id;
+      $this->factura_id = $factura_id;
+      $this->cantidad = $cantidad;
+      $this->costo_compra = $costo_compra;
+      $this->insertarCompraServicio();
    }
 
-   public function tablaServicios(){
-      return file_get_contents("../Views/ComprasCliente/tablaServicios.php");
-   }
 
 
 
-   public function seleccionar($cliente_id, $parametro, $valor, $pagina){
-      return $this->seleccionarFacturas($cliente_id, $parametro, $valor, $pagina);
-   }
+
 
 
 
@@ -49,15 +56,6 @@ class ComprasController extends Compra{
       return $this->seleccionarPorParametro("tipo", $tipo);
    }
    */
-
-   
-   public function insertar($nombre, $tipo, $costo, $observaciones){
-      $this->nombre = $nombre;
-      $this->tipo = $tipo;
-      $this->costo = $costo;
-      $this->observaciones = $observaciones;
-      $this->guardarServicio();
-   }
 
    public function editar($id, $nombre, $tipo, $costo, $observaciones){
       $this->nombre = $nombre;
@@ -109,23 +107,25 @@ class ComprasController extends Compra{
 }
 
 if(isset($_GET['accion'])){
-   if($_GET['accion'] == "tabla_facturas"){
+   if($_GET['accion'] == "insertar"){
       $compCont = new ComprasController();
-      echo $compCont->tablaFacturas();
-   }
-}
-
-if(isset($_GET['accion'])){
-   if($_GET['accion'] == "tabla_productos"){
-      $compCont = new ComprasController();
-      echo $compCont->tablaProductos();
-   }
-}
-
-if(isset($_GET['accion'])){
-   if($_GET['accion'] == "tabla_servicios"){
-      $compCont = new ComprasController();
-      echo $compCont->tablaServicios();
+      if(isset($_GET["producto_id"])){
+         $compCont->insertarProducto(
+            $_GET['producto_id'],
+            $_GET['empleado_id'],
+            $_GET['factura_id'],
+            $_GET['cantidad'],
+            $_GET['costoTotal']
+         );
+      }else{
+         $compCont->insertarServicio(
+            $_GET['servicio_id'],
+            $_GET['empleado_id'],
+            $_GET['factura_id'],
+            $_GET['cantidad'],
+            $_GET['costoTotal']
+         );
+      }
    }
 }
 
@@ -156,18 +156,6 @@ if(isset($_GET["accion"])){
       $servCont = new ServiciosController();
       $salida = $servCont->seleccionarPorFecha($_GET["cliente_id"], $_GET["valor"]);
       echo $salida == null ? "null" : $salida;
-   }
-}
-
-if(isset($_POST['accion'])){
-   if($_POST['accion'] == "insertar"){
-      $servCont = new ServiciosController();
-      $servCont->insertar(
-         $_POST['nombre'],
-         $_POST['tipo'],
-         $_POST['costo'],
-         $_POST['observaciones']
-      );
    }
 }
 
