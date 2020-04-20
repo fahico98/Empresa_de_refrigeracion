@@ -48,7 +48,8 @@ class FacturasController extends Factura{
                   <td>$factura->fecha_hora</td>
                   <td>$factura->costo_factura</td>
                   <td class='celdaDeAccion'>
-                     <a href='#' class='text-primary linkVer' id='$factura->id'><small>ver</small></a>
+                     <a href='http://localhost/WampCode/Yurani_Duque/facturaPDF.php?id=$factura->id'
+                        class='text-primary linkDescargar'><small>descargar</small></a>
                      &nbsp;&nbsp;
                      <a href='#' class='text-danger linkEliminar' id='$factura->id'><small>eliminar</small></a>
                   </td>

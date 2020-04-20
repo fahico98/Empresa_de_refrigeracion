@@ -10,6 +10,8 @@ $iniciador->llenarTablas();
 
 session_start();
 
+define('ROOTPATH', __DIR__);
+
 ?>
 
 <!DOCTYPE html>

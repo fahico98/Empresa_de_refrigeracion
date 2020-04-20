@@ -41,7 +41,7 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
          <div class="row d-flex mx-1 my-2">
             <div class="form-group row mx-2 my-0 w-100">
 
-               <h5 class="my-2 mr-2"><?php echo "$cliente->nombre $cliente->apellido"; ?></h5>
+               <h5 class="my-2 mr-4"><?php echo "$cliente->nombre $cliente->apellido"; ?></h5>
 
                <input type="hidden" value="<?php echo $cliente->id; ?>" id="clienteId">
                <input type="hidden" value="<?php echo $_SESSION['id']; ?>" id="empleadoId">

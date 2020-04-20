@@ -17,6 +17,7 @@ $(document).ready(function(){
       $("#botonVentanaModalAux").trigger("click");
    });
 
+   /*
    $(".linkVer").on("click", function(evento){
       evento.preventDefault();
       let factura = cargarFacturaPorId($(this).attr("id"));
@@ -29,6 +30,7 @@ $(document).ready(function(){
       );
       $("#botonVentanaModalAux").trigger("click");
    });
+   */
 
    $("#botonAceptarAux").on("click", function(evento){
       evento.preventDefault();
