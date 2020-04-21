@@ -76,11 +76,28 @@ $(document).ready(function(){
       $("#tituloVentanaModal").text("Registrar nuevo producto");
    });
 
-   $("#botonEliminarAux").on("click", function(evento){
+   $("#botonAceptarAux").on("click", function(evento){
       evento.preventDefault();
-      eliminarProducto($("#idEliminar").val());
-      $("#botonCancelarAux").trigger("click");
-      cargarProductos($("#dropdownBusqueda").text().toLowerCase(), $("#entradaBusqueda").val(), 1);
+      if($(this).text().localeCompare("Eliminar") == 0){
+         eliminarProducto($("#idEliminar").val());
+         $("#botonCancelarAux").trigger("click");
+         cargarProductos($("#dropdownBusqueda").text().toLowerCase(), $("#entradaBusqueda").val(), 1);
+      }
+   });
+
+   $(document).on("click", ".verObservacionesProducto", function(evento){
+      evento.preventDefault();
+      let producto = cargarProductoPorParametro("id", $(this).attr("id"));
+      let observaciones = producto.observaciones;
+      $("#vetanaModalAuxTitulo").text(producto.nombre);
+      $("#botonAceptarAux").text("Aceptar").attr("data-dismiss", "modal").removeClass().addClass("btn btn-primary");
+      $("#botonCancelarAux").attr("hidden", true);
+      if(observaciones != null){
+         if(observaciones.trim().localeCompare("") != 0){
+            $("#contenidoVentanaModalAux").html("<p>" + producto.observaciones + "</p>");
+         }else{$("#contenidoVentanaModalAux").html("<p>No hay observaciones...!</p>");}
+      }else{$("#contenidoVentanaModalAux").html("<p>No hay observaciones...!</p>");}
+      $("#botonVentanaModalAux").trigger("click");
    });
 
    $(document).on("click", ".botonPagina", function(evento){
@@ -110,6 +127,9 @@ $(document).ready(function(){
       event.preventDefault();
       let producto = cargarProductoPorParametro("id", $(this).attr("id"));
       $("#idEliminar").val(producto.id);
+      $("#vetanaModalAuxTitulo").text("Eliminar producto");
+      $("#botonAceptarAux").text("Eliminar").attr("data-dismiss", null).removeClass().addClass("btn btn-danger");
+      $("#botonCancelarAux").attr("hidden", false);
       $("#contenidoVentanaModalAux")
          .html("¿Realmente quiere eliminar el producto <strong>" + producto.nombre + "</strong>?");
       $("#botonVentanaModalAux").trigger("click");

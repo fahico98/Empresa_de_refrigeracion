@@ -26,21 +26,21 @@
    <?php include("../Adiciones/navbar.php"); ?>
 
    <body>
-      <div class="container my-5">
+      <div class="container mb-3 mt-5">
          <div class="row d-flex justify-content-center">
-            <h2 class="my-5">Servicios</h2>
+            <h2 class="my-3">Servicios</h2>
          </div>
          <div class="row d-flex justify-content-start mx-1 my-2">
             <div class="form-group row mx-2 my-0">
 
                <!-- Boton para gregar un nuevo servicio -->
-               <button id="botonVentanaModal" type="button" class="btn btn-primary" data-toggle="modal"
+               <button id="botonVentanaModal" type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                   data-target="#ventanaModal">
                   Agregar servicio
                </button>
 
                <div class="btn-group ml-2">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"
                      aria-haspopup="true" aria-expanded="false" id="dropdownBusqueda"
                      style="width: 160px;">Nombre</button>
                   <div class="dropdown-menu">
@@ -49,7 +49,7 @@
                   </div>
                </div>
                <div class="col ml-2 px-0 w-100">
-                  <input type="text" class="form-control" id="entradaBusqueda" style="width: 300px;">
+                  <input type="text" class="form-control form-control-sm" id="entradaBusqueda" style="width: 300px;">
                </div>
             </div>
 
@@ -124,12 +124,12 @@
                            <span aria-hidden="true">&times;</span>
                         </button>
                      </div>
-                     <div class="modal-body">
-                        <p id="contenidoVentanaModalAux"></p>
-                     </div>
+
+                     <div class="modal-body" id="contenidoVentanaModalAux"></div>
+
                      <input type="hidden" id="idEliminar">
                      <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" id="botonEliminarAux">Eliminar</button>
+                        <button type="button" class="btn btn-danger" id="botonAceptarAux">Eliminar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="botonCancelarAux">
                            Cancelar
                         </button>
@@ -139,7 +139,7 @@
             </div>
 
          </div>
-         <table class="table">
+         <table class="table-sm w-100">
             <thead class="bg-primary text-white text-center align-middle">
                <tr>
                   <th scope="col">Id</th>

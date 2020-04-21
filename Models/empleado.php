@@ -14,7 +14,7 @@ class Empleado{
    protected $rol;
    protected $usuario;
    protected $contrasena;
-   protected $porPagina = 2;
+   protected $porPagina = 20;
 
    protected function guardarEmpleado(){
       $conexion = new Conexion();

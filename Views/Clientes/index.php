@@ -27,7 +27,9 @@
 
    <body>
       <div class="container mb-3 mt-5">
-         <div class="row d-flex justify-content-center"><h2 class="my-3">Clientes</h2></div>
+         <div class="row d-flex justify-content-center">
+            <h2 class="my-3">Clientes</h2>
+         </div>
          <div class="row d-flex justify-content-start mx-1 my-2">
             <div class="form-group row mx-2 my-0">
 

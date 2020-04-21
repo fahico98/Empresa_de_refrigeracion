@@ -8,6 +8,8 @@ $empleadosURL = "http://localhost/WampCode/Yurani_Duque/Views/Empleados";
 $serviciosURL = "http://localhost/WampCode/Yurani_Duque/Views/Servicios";
 $productosURL = "http://localhost/WampCode/Yurani_Duque/Views/Productos";
 $registroVehiculosURL = "http://localhost/WampCode/Yurani_Duque/Views/RegistroVehiculos";
+$contactenosURL = "http://localhost/WampCode/Yurani_Duque/contactenos.php";
+$serviciosURL = "http://localhost/WampCode/Yurani_Duque/servicios.php";
 
 ?>
 
@@ -20,13 +22,13 @@ $registroVehiculosURL = "http://localhost/WampCode/Yurani_Duque/Views/RegistroVe
                <a class="nav-link active" href="<?php echo($inicioURL); ?>">Inicio</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link active" href="#">Servicios</a>
+               <a class="nav-link active" href="<?php echo($serviciosURL); ?>">Servicios</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link active" href="#">Contactenos</a>
+               <a class="nav-link active" href="<?php echo($contactenosURL); ?>">Contactenos</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link active" href="#">Quienes somos</a>
+               <a class="nav-link active" href="<?php echo($inicioURL); ?>">Quienes somos</a>
             </li>
          </ul>
 
@@ -40,7 +42,9 @@ $registroVehiculosURL = "http://localhost/WampCode/Yurani_Duque/Views/RegistroVe
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                      <a class="dropdown-item" href="<?php echo($clientesURL); ?>">Clientes</a>
+                     <?php if($_SESSION["rol"] == "administrador"){ ?>
                      <a class="dropdown-item" href="<?php echo($empleadosURL); ?>">Empleados</a>
+                     <?php } ?>
                      <a class="dropdown-item" href="<?php echo($registroVehiculosURL); ?>">Vehiculos registrados</a>
                      <div class="dropdown-divider"></div>
                      <a class="dropdown-item" href="<?php echo($productosURL); ?>">Productos</a>

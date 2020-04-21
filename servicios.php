@@ -1,16 +1,5 @@
 
-<?php
-
-/*
-Include "Config/Iniciador.php";
-$iniciador = new Iniciador();
-$iniciador->crearTablas();
-$iniciador->llenarTablas();
-*/
-
-session_start();
-
-?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html>
@@ -96,13 +85,23 @@ session_start();
 
          <div class="card border-primary my-4 w-100">
             <div class="card-header bg-primary">
-               <h3 class="text-white">Consejos practicos</h3>
+               <h3 class="text-white">Servicios empresariales</h3>
             </div>
-            <div class="card-body justify-content-center">
-               <div class="row justify-content-center">
-                  <iframe width="630" height="450" src="store\imagenes\Garaje Consejos para el buen uso del aire acondicionado.mp4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-               </div>
-               <p class="card-text mt-3">REALIZA REVICION Y MANTENIMIENTO PERIODICO DE TU AIRE VEHICULAR CONTRIBUYES CON EL MEDIO AMBIENTE, CUIDAS TU  SALUD Y TU VEHICULO EN BUENAS CONDICIONES</p>
+            <div class="card-body">
+               <table border="0" align="center">
+                  <tr valign="bottom" align="center">
+                     <th><h4>refigeracion y aire acondicionado</h4></th>
+                     <th><h4>repuestos</h4></th>
+                  </tr>
+                  <tr>
+                     <th align="center"><img src="imagenes/aire acondicionado.jpg"></th>
+                     <td align="center"><img src="imagenes/repuestos.jpg"></td>
+                  </tr>
+                  <tr>
+                     <td align="center"><P> el mantenimiento de aires acondicionados y refigeracion de su vehiculo merece un experto, gracias a nuestro equipo de trabajo y tecnología podemos garantizar un resultado que cumple con los más altos estándares de calidad.</P></td> </p></td>
+                     <td align="center"><p>Ofrecemos amplia gama de repuestos y equipos de aire acondicionado automotriz tanto alternativos como originales para cualquier tipo de vehículo. Somos importadores directos. </p></td>
+                  </tr>
+               </table>
             </div>
          </div>
 

@@ -1,16 +1,5 @@
 
-<?php
-
-/*
-Include "Config/Iniciador.php";
-$iniciador = new Iniciador();
-$iniciador->crearTablas();
-$iniciador->llenarTablas();
-*/
-
-session_start();
-
-?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html>
@@ -96,13 +85,35 @@ session_start();
 
          <div class="card border-primary my-4 w-100">
             <div class="card-header bg-primary">
-               <h3 class="text-white">Consejos practicos</h3>
+               <h3 class="text-white">Contactenos</h3>
             </div>
-            <div class="card-body justify-content-center">
-               <div class="row justify-content-center">
-                  <iframe width="630" height="450" src="store\imagenes\Garaje Consejos para el buen uso del aire acondicionado.mp4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="row m-3">
+               <div class="col-sm-6">
+                  <th align="center"><img src="imagenes/mensaje.jpg"></th> 
                </div>
-               <p class="card-text mt-3">REALIZA REVICION Y MANTENIMIENTO PERIODICO DE TU AIRE VEHICULAR CONTRIBUYES CON EL MEDIO AMBIENTE, CUIDAS TU  SALUD Y TU VEHICULO EN BUENAS CONDICIONES</p>
+               <div class="col-sm-6">
+                  <form action="/my-handling-form-page" method="post">
+                     <div class="form-group">
+                        <label for="name">Nombre:</label>
+                        <input class="form-control" type="text" id="name" />
+                     </div>
+                     <div class="form-group">
+                        <label for="last_name">Apellido:</label>
+                        <input class="form-control" type="last_name" id="last_name" />
+                     </div>
+                     <div class="form-group">
+                        <label for="msg">Documento:</label>
+                        <input class="form-control" type="num" id="doc" />
+                     </div>
+                     <div class="form-group">
+                        <label for="mensaje">Mensaje:</label>
+                        <textarea style="resize: none;" class="form-control" id="mensaje" name="mensaje"
+                           placeholder="Danos tu mensaje"></textarea>
+                     <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                     </div>
+                  </form>
+               </div>
             </div>
          </div>
 

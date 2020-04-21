@@ -32,7 +32,7 @@ $(document).ready(function(){
       $("#botonAceptarAux").text("Aceptar").attr("data-dismiss", "modal");
       $("#botonCancelarAux").attr("hidden", true);
       if(observaciones != null){
-         if(observaciones.trim().localeCompare("") == 0){
+         if(observaciones.trim().localeCompare("") != 0){
             $("#contenidoVentanaModalAux").html("<p>" + servicio.observaciones + "</p>");
          }else{$("#contenidoVentanaModalAux").html("<p>No hay observaciones...!</p>");}
       }else{$("#contenidoVentanaModalAux").html("<p>No hay observaciones...!</p>");}
