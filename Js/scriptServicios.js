@@ -11,8 +11,6 @@ var arregloEntradas = {
 
 $(document).ready(function(){
 
-   console.log("Ready !");
-
    $(".dropdown-item").css("cursor", "pointer");
    $("td").addClass("align-middle mx-0 px-0");
    $("th").addClass("align-middle mx-0 px-0");
@@ -79,7 +77,6 @@ $(document).ready(function(){
    });
 
    $("#botonVentanaModal").on("click", function(){
-      console.log("boton ventana modal !");
       reiniciarFormulario();
       $("#tituloVentanaModal").text("Registrar nuevo servicio");
    });
@@ -109,7 +106,7 @@ $(document).ready(function(){
       $("#entradaId").val($(this).attr("id"));
       $("#entradaNombre").val(servicio.nombre);
       $("#entradaTipo").val(servicio.tipo);
-      $("#entradaCosto").val(servicio.costo);
+      $("#entradaCosto").val(servicio.costo_unitario);
       $("#entradaObservaciones").val(servicio.observaciones);
    });
 

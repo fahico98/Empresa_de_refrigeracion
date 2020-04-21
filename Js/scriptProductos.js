@@ -72,7 +72,6 @@ $(document).ready(function(){
    });
 
    $("#botonVentanaModal").on("click", function(){
-      console.log("boton ventana modal !");
       reiniciarFormulario();
       $("#tituloVentanaModal").text("Registrar nuevo producto");
    });

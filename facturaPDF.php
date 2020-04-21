@@ -34,8 +34,8 @@ $index = 0;
 
 foreach($compras as $compra){
    $query = $compra->producto_id == null ?
-   "SELECT * FROM servicios WHERE id = '$compra->servicio_id'" :
-   "SELECT * FROM productos WHERE id = '$compra->producto_id'" ;
+      "SELECT * FROM servicios WHERE id = $compra->servicio_id" :
+      "SELECT * FROM productos WHERE id = $compra->producto_id" ;
    $statement = $conexion->pdo->query($query);
    $producto = $statement->fetchAll(PDO::FETCH_OBJ)[0];
    $productos[$index] = $producto;
@@ -46,7 +46,7 @@ $conexion->cerrarConexion();
 
 $contenido .=
    "<body>
-      <h2 style='text-align: center'>Factura de compra</h2>
+      <h2 style='text-align: center'>Factura de venta</h2>
       <h4 style='text-align: center'>Refrigeracion JK S.A ltda - NIT: 16788787-1</h4>
       <h4 style='text-align: center'>Dirección: Carrera 112 - 42 Cali</h4>
       <h5 style='text-align: center'>Número de factura: " . str_pad($factura->id, 6, "0", STR_PAD_LEFT) . "</h5>

@@ -5,7 +5,7 @@ $(document).ready(function(){
 
    cargarFacturas();
 
-   $(".linkEliminar").on("click", function(evento){
+   $(document).on("click", ".linkEliminar", function(evento){
       evento.preventDefault();
       $("#botonAceptarAux").removeClass().addClass("btn btn-danger").text("Eliminar");
       $("#botonCancelarAux").attr("hidden", false);

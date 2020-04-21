@@ -7,6 +7,7 @@ $clientesURL = "http://localhost/WampCode/Yurani_Duque/Views/Clientes";
 $empleadosURL = "http://localhost/WampCode/Yurani_Duque/Views/Empleados";
 $serviciosURL = "http://localhost/WampCode/Yurani_Duque/Views/Servicios";
 $productosURL = "http://localhost/WampCode/Yurani_Duque/Views/Productos";
+$registroVehiculosURL = "http://localhost/WampCode/Yurani_Duque/Views/RegistroVehiculos";
 
 ?>
 
@@ -40,7 +41,7 @@ $productosURL = "http://localhost/WampCode/Yurani_Duque/Views/Productos";
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                      <a class="dropdown-item" href="<?php echo($clientesURL); ?>">Clientes</a>
                      <a class="dropdown-item" href="<?php echo($empleadosURL); ?>">Empleados</a>
-                     <a class="dropdown-item" href="#">Vehiculos registrados</a>
+                     <a class="dropdown-item" href="<?php echo($registroVehiculosURL); ?>">Vehiculos registrados</a>
                      <div class="dropdown-divider"></div>
                      <a class="dropdown-item" href="<?php echo($productosURL); ?>">Productos</a>
                      <a class="dropdown-item" href="<?php echo($serviciosURL); ?>">Servicios</a>

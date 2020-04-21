@@ -22,7 +22,8 @@ class Iniciador{
             telefono                VARCHAR(50) DEFAULT NULL,
             direccion               VARCHAR(50) DEFAULT NULL,
             email                   VARCHAR(50) DEFAULT NULL,
-            placa                   VARCHAR(10) DEFAULT NULL
+            placa                   VARCHAR(10) DEFAULT NULL,
+            registrado              INT DEFAULT 0
          ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish2_ci;";
       $this->conexion->pdo->query($query);
 
@@ -52,7 +53,7 @@ class Iniciador{
             id                      INT(6) NOT NULL PRIMARY KEY AUTO_INCREMENT,
             nombre                  VARCHAR(200) NOT NULL,
             tipo                    VARCHAR(50) DEFAULT NULL,
-            costo                   INT DEFAULT 0,
+            costo_unitario          INT DEFAULT 0,
             observaciones           TEXT DEFAULT NULL
          ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish2_ci;";
       $this->conexion->pdo->query($query);
@@ -62,7 +63,8 @@ class Iniciador{
             cliente_id              INT(6) NOT NULL,
             placa                   VARCHAR(10) DEFAULT NULL,
             modelo                  VARCHAR(50) DEFAULT NULL,
-            fecha_hora              DATETIME DEFAULT CURRENT_TIMESTAMP
+            fecha_hora_entrada      DATETIME DEFAULT CURRENT_TIMESTAMP,
+            fecha_hora_salida       DATETIME DEFAULT NULL
          ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish2_ci;";
       $this->conexion->pdo->query($query);
 
@@ -190,12 +192,6 @@ class Iniciador{
          (16888787, 'juan carlos', 'luna', 48, '3127335675', 'cra 17 bis No 25-18', 'juankl17@hotmail.com', 'KVA20B'),
          (28015447, 'nohelia patricia', 'hernandez', 45, '3101112355', 'cra 23A No 11-34', 'mohel_2304@gmail.com', 'ERK211A'),
          (1100991212, 'juan camilo', 'moreno heredia', 24, '3210912231', 'calle 15 No 90-01', 'camilohere@yahoo.com', 'OPP452');";
-      $this->conexion->pdo->query($query);
-
-      $query = "INSERT INTO registro_vehiculos (cliente_id, placa, modelo) VALUES 
-         (2, 'VES254D', 'chevrolet aveo'),
-         (4, 'ERK211A', 'renault symbol'),
-         (5, 'VES254D', 'mazda 3');";
       $this->conexion->pdo->query($query);
    }
    

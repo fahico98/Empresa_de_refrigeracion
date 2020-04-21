@@ -86,10 +86,10 @@ function agregarAlCarrito(id, servicio, cantidad){
       empleado_id: $("#empleadoId").val(),
       nombre: servicio.nombre,
       cantidad: parseInt(cantidad, 10),
-      costoUnitario: parseInt(servicio.costo, 10),
-      costoTotal: parseInt(servicio.costo, 10) * parseInt(cantidad, 10)
+      costoUnitario: parseInt(servicio.costo_unitario, 10),
+      costoTotal: parseInt(servicio.costo_unitario, 10) * parseInt(cantidad, 10)
    });
-   costoFactura += parseInt(servicio.costo, 10) * parseInt(cantidad, 10);
+   costoFactura += parseInt(servicio.costo_unitario, 10) * parseInt(cantidad, 10);
    actualizarCarrito();
 }
 

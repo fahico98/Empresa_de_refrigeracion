@@ -20,18 +20,18 @@ class ServiciosController extends Servicio{
       return $this->seleccionarPorParametro("tipo", $tipo);
    }
 
-   public function insertar($nombre, $tipo, $costo, $observaciones){
+   public function insertar($nombre, $tipo, $costo_unitario, $observaciones){
       $this->nombre = $nombre;
       $this->tipo = $tipo;
-      $this->costo = $costo;
+      $this->costo_unitario = $costo_unitario;
       $this->observaciones = $observaciones;
       $this->guardarServicio();
    }
 
-   public function editar($id, $nombre, $tipo, $costo, $observaciones){
+   public function editar($id, $nombre, $tipo, $costo_unitario, $observaciones){
       $this->nombre = $nombre;
       $this->tipo = $tipo;
-      $this->costo = $costo;
+      $this->costo_unitario = $costo_unitario;
       $this->observaciones = $observaciones;
       $this->actualizarServicio($id);
    }
@@ -49,7 +49,7 @@ class ServiciosController extends Servicio{
                   <th scope='row'>" . str_pad($servicio->id, 6, "0", STR_PAD_LEFT) . "</th>
                   <td>$servicio->nombre</td>
                   <td>$servicio->tipo</td>
-                  <td>$servicio->costo</td>
+                  <td>$servicio->costo_unitario</td>
                   <td><a href='#' class='verObservacionesServicio' id='$servicio->id'><small>ver</small></a></th>
                   <td class='celdaDeAccion' id='$servicio->id'>
                      <a href='#' class='text-primary linkEditar' id='$servicio->id'><small>Editar</small></a>

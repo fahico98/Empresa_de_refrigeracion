@@ -7,14 +7,6 @@ if(!isset($_SESSION["nombre"])){
    header("Location: http://localhost/WampCode/Yurani_Duque");
 }
 
-include "../../Config/Conexion.php";
-
-$conexion = new Conexion();
-$query = "SELECT * FROM clientes WHERE id = '" . $_GET["id"] . "'";
-$statement = $conexion->pdo->query($query);
-$conexion->cerrarConexion();
-$cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
-
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +15,7 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Refigeracion JK - Productos</title>
+      <title>Refigeracion JK - Registro vehiculos</title>
       
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -39,33 +31,28 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
    <body>
       <div class="container my-5">
          <div class="row d-flex mx-1 my-2">
-            <div class="form-group row mx-2 my-0 w-100">
+            <div class="form-group row mx-1 my-0 w-100">
 
-               <h5 class="my-2 mr-4"><?php echo "$cliente->nombre $cliente->apellido"; ?></h5>
-
-               <input type="hidden" value="<?php echo $cliente->id; ?>" id="clienteId">
-               <input type="hidden" value="<?php echo $_SESSION['id']; ?>" id="empleadoId">
+               <!--
+               <input type="hidden" value="<?php //echo $cliente->id; ?>" id="clienteId">
+               <input type="hidden" value="<?php //echo $_SESSION['id']; ?>" id="empleadoId">
                <input type="hidden" value="#" id="productoId">
                <input type="hidden" value="#" id="servicioId">
+               -->
 
                <div class="my-auto">
-                  <button id="botonCarritoModal" type="button" class="btn btn-sm btn-primary mr-1" data-toggle="modal"
-                     data-target="#carritoModal">
-                     Carrito
-                  </button>
                   <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"
                      aria-haspopup="true" aria-expanded="false" id="dropdownTablas"
-                     style="width: 160px;">Facturas</button>
+                     style="width: 160px;">Registros</button>
                   <div class="dropdown-menu">
-                     <option value="facturas" class="dropdown-item dropdownTablasLink">Facturas</option>
-                     <option value="productos" class="dropdown-item dropdownTablasLink">Productos</option>
-                     <option value="servicios" class="dropdown-item dropdownTablasLink">Servicios</option>
+                     <option value="registros" class="dropdown-item dropdownTablasLink">Registros</option>
+                     <option value="clientes" class="dropdown-item dropdownTablasLink">Clientes</option>
                   </div>
                </div>
 
             </div>
 
-            <!-- Ventana modal de carrito de compras -->
+            <!-- Ventana modal de carrito de compras
             <div class="modal fade border-dark bd-example-modal-lg" tabindex="-1" role="dialog" id="carritoModal"
                aria-labelledby="tituloCarritoModal" aria-hidden="true">
                <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -94,6 +81,7 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
                   </div>
                </div>
             </div>
+            -->
 
          </div>
 
@@ -104,7 +92,7 @@ $cliente = $statement->fetchAll(PDO::FETCH_OBJ)[0];
       <?php include("../Adiciones/bootstrapScripts.php"); ?>
 
       <!-- Own Script -->
-      <script src="../../Js/scriptComprasCliente.js" language="JavaScript" type="text/javascript"></script>
+      <script src="../../Js/scriptRegistroVehiculos.js" language="JavaScript" type="text/javascript"></script>
    </body>
 </html>
 

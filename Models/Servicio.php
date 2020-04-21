@@ -7,18 +7,18 @@ class Servicio{
    protected $id;
    protected $nombre;
    protected $tipo;
-   protected $costo;
+   protected $costo_unitario;
    protected $observaciones;
    protected $porPagina = 20;
 
    protected function guardarServicio(){
       $conexion = new Conexion();
-      $query = "INSERT INTO servicios (nombre, tipo, costo, observaciones) 
-         VALUES (:nombre, :tipo, :costo, :observaciones)"; 
+      $query = "INSERT INTO servicios (nombre, tipo, costo_unitario, observaciones) 
+         VALUES (:nombre, :tipo, :costo_unitario, :observaciones)"; 
       $statement = $conexion->pdo->prepare($query);
       $statement->bindValue(":nombre", $this->nombre);
       $statement->bindValue(":tipo", $this->tipo);
-      $statement->bindValue(":costo", $this->costo);
+      $statement->bindValue(":costo_unitario", $this->costo_unitario);
       $statement->bindValue(":observaciones", $this->observaciones);
       $statement->execute();
       $conexion->cerrarConexion();
@@ -30,7 +30,7 @@ class Servicio{
          "UPDATE servicios SET 
             nombre = :nombre,
             tipo = :tipo,
-            costo = :costo,
+            costo_unitario = :costo_unitario,
             observaciones = :observaciones
          WHERE (
             id = $id
@@ -38,7 +38,7 @@ class Servicio{
       $statement = $conexion->pdo->prepare($query);
       $statement->bindValue(":nombre", $this->nombre);
       $statement->bindValue(":tipo", $this->tipo);
-      $statement->bindValue(":costo", $this->costo);
+      $statement->bindValue(":costo_unitario", $this->costo_unitario);
       $statement->bindValue(":observaciones", $this->observaciones);
       $statement->execute();
       $conexion->cerrarConexion();

@@ -24,6 +24,14 @@ class ClientesController extends Cliente{
       return $this->seleccionarPorParametro("placa", $placa);
    }
 
+   public function registrarVehiculoCliente($id){
+      $this->registrarVehiculo($id);
+   }
+
+   public function quitarRegistroVehiculoCliente($id){
+      $this->quitarRegistroVehiculo($id);
+   }
+
    public function insertar($documento, $nombre, $apellido, $edad, $telefono, $direccion, $email, $placa){
       $this->documento = $documento;
       $this->nombre = $nombre;
@@ -50,6 +58,33 @@ class ClientesController extends Cliente{
 
    public function eliminar($id){
       $this->eliminarCliente($id);
+   }
+
+   public function plantillaEstados($clientes){
+      $salida = "";
+      if(count($clientes) !== 0){
+         foreach($clientes as $cliente){
+            $salida .= 
+               "<tr class='text-center'>
+                  <th scope='row'>" . str_pad($cliente->id, 6, "0", STR_PAD_LEFT) . "</th>
+                  <td>$cliente->nombre $cliente->apellido</td>
+                  <td>$cliente->documento</td>
+                  <td>" . strtoupper($cliente->placa) . "</td>
+                  <td>";
+            $salida .= ($cliente->registrado == 1) ? "Si" : "No";
+            $salida .= "</td><td class='celdaDeAccion'>";
+            $salida .= ($cliente->registrado == 1) ?
+               "<a href='#' class='text-primary linkQuitarRegistro' id='$cliente->id'><small>Terminar registro</small></a>":
+               "<a href='#' class='text-primary linkRegistrar' id='$cliente->id'><small>Registrar</small></a>";
+            $salida .= "</td></tr>";
+         }
+      }else{
+         $salida =
+            "<tr><td colspan='9' class='text-center'>
+               <h4>No hay clientes para mostrar...</h4>
+            </td></tr>";
+      }
+      return $salida;
    }
 
    public function plantillaClientes($clientes){
@@ -171,6 +206,33 @@ if(isset($_GET['accion'])){
             $_GET["pagina"]
          )
       );
+   }
+}
+
+if(isset($_GET['accion'])){
+   if($_GET['accion'] == "seleccionar_estados"){
+      $cliCont = new ClientesController();
+      echo $cliCont->plantillaEstados(
+         $cliCont->seleccionar(
+            $_GET["parametro"],
+            $_GET["valor"],
+            $_GET["pagina"]
+         )
+      );
+   }
+}
+
+if(isset($_GET["accion"])){
+   if($_GET["accion"] == "registrar"){
+      $cliCont = new ClientesController();
+      $cliCont->registrarVehiculoCliente($_GET["id"]);
+   }
+}
+
+if(isset($_GET["accion"])){
+   if($_GET["accion"] == "quitar_registro"){
+      $cliCont = new ClientesController();
+      $cliCont->quitarRegistroVehiculoCliente($_GET["id"]);
    }
 }
 
